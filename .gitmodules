@@ -1,0 +1,6 @@
+[submodule "reading/repos/simple-A2C"]
+	path = reading/repos/simple-A2C
+	url = https://github.com/simoninithomas/simple-A2C.git
+[submodule "reading/repos/pytorch-rl"]
+	path = reading/repos/pytorch-rl
+	url = https://github.com/bentrevett/pytorch-rl.git
