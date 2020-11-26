@@ -1,6 +1,6 @@
 import itertools
 
-from ..domain import Repr
+from .domain import Repr
 
 class Hyperparameter(Repr):
     def __init__(self, name, value_list):
@@ -11,6 +11,18 @@ class Hyperparameter(Repr):
 class HyperparameterSet(object):
     def __init__(self):
         self._hyperparameters = {}
+    
+    def __str__(self):
+        return "{{{0}}}".format(
+            ", ".join(
+                [
+                    "{0}={1}".format(
+                        key,
+                        self._hyperparameters[key].value if self._hyperparameters[key].value else self._hyperparameters[key].value_list
+                    ) for key in self._hyperparameters
+                ]
+            )
+        )
     
     def add(self, name, *values):
         if len(values) == 0:
@@ -32,3 +44,12 @@ class HyperparameterSet(object):
             for i in range(len(keys)):
                 result.add(keys[i], valuation[i])            
             yield result
+
+    def __getitem__(self, key):
+        if not key in self._hyperparameters:
+            raise KeyError(key)
+    
+        if type(self._hyperparameters[key].value) == type(None):
+            raise Exception("hyperparameter set needs permutation before it can be used")
+    
+        return self._hyperparameters[key].value

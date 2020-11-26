@@ -9,7 +9,7 @@ class Memory(Repr):
         action_log_probabilities = None,
         reward = None):
         self.observation_current = observation_current
-        self.observation_last = observation_last
+        self.observation_next = observation_next
         self.action = action
         self.action_log_probabilities = action_log_probabilities
         self.reward = reward
