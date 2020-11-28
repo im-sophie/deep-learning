@@ -14,10 +14,13 @@ import sophiedl as S
 class PGOAgent(S.AgentBase):
     def __init__(self,
         policy_network,
-        memory_cleanup_schedule,
         hyperparameter_set,
         tensorboard_summary_writer = None):
-        super().__init__(memory_cleanup_schedule, hyperparameter_set, tensorboard_summary_writer)
+        super().__init__(
+            hyperparameter_set,
+            tensorboard_summary_writer
+        )
+
         self.policy_network = policy_network
     
     def on_act(self, observation):
@@ -29,8 +32,11 @@ class PGOAgent(S.AgentBase):
 
         action = action_probabilities.sample()
 
-        return action, action_probabilities.log_prob(action)
+        return action.item(), action_probabilities.log_prob(action)
     
+    def on_should_learn(self, runner_context):
+        return runner_context.done
+
     def on_learn(self):
         self.policy_network.optimizer.zero_grad()
 
@@ -60,6 +66,8 @@ class PGOAgent(S.AgentBase):
         loss.backward()
         self.policy_network.optimizer.step()
 
+        self.clear_memory()
+
 if __name__ == "__main__":
     env = S.EnvironmentGymWrapper(
         gym.make("LunarLander-v2")
@@ -79,10 +87,9 @@ if __name__ == "__main__":
                 output_feature_count = env.action_space_shape.flat_size,
                 layer_dimensions = hyperparameter_set["layer_dimensions"]
             ),
-            memory_cleanup_schedule = S.MemoryCleanupScheduleMonteCarlo(),
             hyperparameter_set = hyperparameter_set
         ),
         episode_count = 2500,
         hyperparameter_set = hyperparameter_set,
-        tensorboard_output_dir = "./runs"
+        tensorboard_output_dir = "./runs/PGO"
     ).run()

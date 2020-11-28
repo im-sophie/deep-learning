@@ -8,7 +8,14 @@
             "name": "PGO",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}/pgo.py",
+            "program": "${workspaceFolder}/PGO.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Actor Critic",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/ActorCritic.py",
             "console": "integratedTerminal"
         }
     ]

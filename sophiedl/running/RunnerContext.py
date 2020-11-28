@@ -5,7 +5,9 @@ class RunnerContext(Repr):
         self.episode_index = 0
         self.step_index = 0
         self.reward_sum = 0
+        self.done = False
     
     def reset_episode(self):
         self.step_index = 0
         self.reward_sum = 0
+        self.done = False

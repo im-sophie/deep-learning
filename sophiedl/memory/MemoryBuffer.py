@@ -1,8 +1,7 @@
 from .Memory import Memory
 
 class MemoryBuffer(object):
-    def __init__(self, memory_cleanup_schedule):
-        self.memory_cleanup_schedule = memory_cleanup_schedule
+    def __init__(self):
         self.memories = []
         self.memory_staging = Memory()
     
@@ -17,6 +16,12 @@ class MemoryBuffer(object):
             raise Exception("next observation already added for next memory")
     
         self.memory_staging.observation_next = value
+
+    def add_done(self, value):
+        if self.memory_staging.done:
+            raise Exception("done flag already added for next memory")
+    
+        self.memory_staging.done = value
 
     def add_action(self, value):
         if self.memory_staging.action:
@@ -39,10 +44,6 @@ class MemoryBuffer(object):
     def push(self):
         self.memories.append(self.memory_staging)
         self.memory_staging = Memory()
-    
-    def cleanup(self, runner_context):
-        if self.memory_cleanup_schedule.should_cleanup(self, runner_context):
-            self.memory_cleanup_schedule.cleanup(self, runner_context)
 
     def __len__(self):
         return len(self.memories)

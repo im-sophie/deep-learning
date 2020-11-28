@@ -32,12 +32,17 @@ class Runner(object):
 
         while not done:
             action = self.agent.act(self.context, observation)
+            
             observation, reward, done, _ = self.environment.step(action)
-            self.agent.reward(reward, observation)
+            
+            self.agent.reward(reward, observation, done)
+            
+            self.context.done = done
             self.context.reward_sum += reward
+            
+            self.agent.learn(self.context)
+            
             self.context.step_index += 1
-        
-        self.agent.learn()
 
         print("Episode {0}, reward sum {1:.3f}".format(self.context.episode_index, self.context.reward_sum))
 

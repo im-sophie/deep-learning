@@ -5,11 +5,13 @@ class Memory(Repr):
         self,
         observation_current = None,
         observation_next = None,
+        done = False,
         action = None,
         action_log_probabilities = None,
         reward = None):
         self.observation_current = observation_current
         self.observation_next = observation_next
+        self.done = done
         self.action = action
         self.action_log_probabilities = action_log_probabilities
         self.reward = reward
