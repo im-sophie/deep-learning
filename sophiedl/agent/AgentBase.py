@@ -29,7 +29,7 @@ class AgentBase(abc.ABC):
         self.memory_buffer.add_observation_current(observation)
         self.memory_buffer.add_action(action)
 
-        if action_log_probabilities:
+        if type(action_log_probabilities) != type(None):
             self.memory_buffer.add_action_log_probabilities(action_log_probabilities)
         
         return action

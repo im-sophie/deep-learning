@@ -12,10 +12,17 @@
             "console": "integratedTerminal"
         },
         {
-            "name": "Actor Critic",
+            "name": "Discrete Actor Critic",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}/ActorCritic.py",
+            "program": "${workspaceFolder}/DiscreteActorCritic.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Continuous Actor Critic",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/ContinuousActorCritic.py",
             "console": "integratedTerminal"
         }
     ]

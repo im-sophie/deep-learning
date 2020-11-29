@@ -28,13 +28,18 @@ class ActorCriticAgent(S.AgentBase):
     def on_act(self, observation):
         assert observation.shape == self.actor_network.observation_space_shape, "observation must match expected shape"
 
-        action_probabilities = T.distributions.Categorical(
-            F.softmax(self.actor_network.forward(observation))
+        mu, sigma = self.actor_network.forward(observation)
+
+        action_probabilities = T.distributions.Normal(
+            mu,
+            T.exp(sigma)
         )
 
-        action = action_probabilities.sample()
+        action = action_probabilities.sample(
+            sample_shape = (1,)
+        )
 
-        return action.item(), action_probabilities.log_prob(action)
+        return T.tanh(action).cpu().numpy(), action_probabilities.log_prob(action)
 
     def on_should_learn(self, runner_context):
         return len(self.memory_buffer) > 0
@@ -65,14 +70,14 @@ class ActorCriticAgent(S.AgentBase):
 
 if __name__ == "__main__":
     env = S.EnvironmentGymWrapper(
-        gym.make("CartPole-v0")
+        gym.make("MountainCarContinuous-v0")
     )
 
     hyperparameter_set = S.HyperparameterSet()
-    hyperparameter_set.add("learning_rate_actor", 1e-5)
-    hyperparameter_set.add("learning_rate_critic", 5e-4)
-    hyperparameter_set.add("layer_dimensions_actor", [32, 32])
-    hyperparameter_set.add("layer_dimensions_critic", [32, 32])
+    hyperparameter_set.add("learning_rate_actor", 5e-6)
+    hyperparameter_set.add("learning_rate_critic", 1e-5)
+    hyperparameter_set.add("layer_dimensions_actor", [256, 256])
+    hyperparameter_set.add("layer_dimensions_critic", [256, 256])
     hyperparameter_set.add("gamma", 0.99)
 
     S.Runner(
@@ -81,7 +86,7 @@ if __name__ == "__main__":
             actor_network = S.ParameterizedNetwork(
                 learning_rate = hyperparameter_set["learning_rate_actor"],
                 observation_space_shape = env.observation_space_shape,
-                output_feature_count = env.action_space_shape.flat_size,
+                output_feature_count = 2,
                 layer_dimensions = hyperparameter_set["layer_dimensions_actor"]
             ),
             critic_network = S.ParameterizedNetwork(
@@ -92,7 +97,7 @@ if __name__ == "__main__":
             ),
             hyperparameter_set = hyperparameter_set
         ),
-        episode_count = 2500,
+        episode_count = 100,
         hyperparameter_set = hyperparameter_set,
         tensorboard_output_dir = "./runs/ActorCritic"
     ).run()
