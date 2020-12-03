@@ -23,7 +23,7 @@ class PGOAgent(S.AgentBase):
 
         self.policy_network = policy_network
     
-    def on_act(self, observation):
+    def on_act(self, runner_context, observation):
         assert observation.shape == self.policy_network.observation_space_shape, "observation must match expected shape"
 
         action_probabilities = T.distributions.Categorical(

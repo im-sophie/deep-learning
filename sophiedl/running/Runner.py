@@ -21,8 +21,7 @@ class Runner(object):
         self.hyperparameter_set = hyperparameter_set
         self.tensorboard_output_dir = tensorboard_output_dir
         self.clear_tensorboard_output_dir = clear_tensorboard_output_dir
-        self.tensorboard_summary_writer = None
-        self.context = RunnerContext()
+        self.context = None
 
     def _run_episode(self):
         self.context.reset_episode()
@@ -42,14 +41,17 @@ class Runner(object):
             
             self.agent.learn(self.context)
             
-            self.context.step_index += 1
+            self.context.step_index_episode += 1
+            self.context.step_index_total += 1
 
         print("Episode {0}, reward sum {1:.3f}".format(self.context.episode_index, self.context.reward_sum))
 
-        if self.tensorboard_summary_writer:
-            self.tensorboard_summary_writer.add_scalar("Reward Sum", self.context.reward_sum, self.context.episode_index)
+        self.context.add_scalar("Reward Sum", self.context.reward_sum, self.context.episode_index)
+        self.context.add_scalar("Episode Length", self.context.step_index_episode, self.context.episode_index)
 
     def run(self):
+        tensorboard_summary_writer = None
+
         if self.tensorboard_output_dir:
             if self.clear_tensorboard_output_dir:
                 for i in glob.glob(os.path.join(os.path.abspath(self.tensorboard_output_dir), "*")):
@@ -58,9 +60,11 @@ class Runner(object):
                     else:
                         os.remove(i)
 
-            self.tensorboard_summary_writer = SummaryWriter(
+            tensorboard_summary_writer = SummaryWriter(
                 log_dir = os.path.join(os.path.abspath(self.tensorboard_output_dir), str(self.hyperparameter_set))
             )
+        
+        self.context = RunnerContext(self.environment, tensorboard_summary_writer)
 
         for _ in range(self.episode_count):
             self._run_episode()

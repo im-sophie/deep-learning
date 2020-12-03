@@ -5,14 +5,12 @@ from ..memory import MemoryBuffer
 class AgentBase(abc.ABC):
     def __init__(
         self,
-        hyperparameter_set,
-        tensorboard_summary_writer = None):
+        hyperparameter_set):
         self.hyperparameter_set = hyperparameter_set
-        self.tensorboard_summary_writer = tensorboard_summary_writer
         self.memory_buffer = MemoryBuffer()
     
     @abc.abstractmethod
-    def on_act(self, observation):
+    def on_act(self, runner_context, observation):
         pass
 
     @abc.abstractmethod
@@ -20,11 +18,11 @@ class AgentBase(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def on_learn(self):
+    def on_learn(self, runner_context):
         pass
 
     def act(self, runner_context, observation):
-        action, action_log_probabilities = self.on_act(observation)
+        action, action_log_probabilities = self.on_act(runner_context, observation)
 
         self.memory_buffer.add_observation_current(observation)
         self.memory_buffer.add_action(action)
@@ -42,7 +40,7 @@ class AgentBase(abc.ABC):
 
     def learn(self, runner_context):
         if self.on_should_learn(runner_context):
-            self.on_learn()
+            self.on_learn(runner_context)
 
     def clear_memory(self):
         del self.memory_buffer[:]
