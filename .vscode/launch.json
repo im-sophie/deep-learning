@@ -11,7 +11,7 @@
             "program": "${workspaceFolder}/test.py",
             "args": [
                 "--factory",
-                "AgentEnvironmentFactoryPGOLunarLanderV2",
+                "AgentEnvironmentFactoryContinuousActorCriticMountainCarContinuousV0",
                 "--episode-count",
                 "2500",
                 "--tensorboard-output-dir",
