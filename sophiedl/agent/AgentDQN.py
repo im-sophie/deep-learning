@@ -3,11 +3,9 @@ import random
 import torch as T
 import torch.nn.functional as F
 
-import gym
+from .AgentBase import AgentBase
 
-import sophiedl as S
-
-class DQNAgent(S.AgentBase):
+class AgentDQN(AgentBase):
     def __init__(self,
         policy_network,
         target_network,
@@ -107,45 +105,3 @@ class DQNAgent(S.AgentBase):
 
             if runner_context.done and runner_context.episode_index > 0 and runner_context.episode_index % self.hyperparameter_set["target_update_interval"] == 0:
                 self.target_network.load_state_dict(self.policy_network.state_dict())
-
-if __name__ == "__main__":
-    env = S.EnvironmentGymWrapper(
-        gym.make("CartPole-v0")
-    )
-
-    hyperparameter_set = S.HyperparameterSet()
-    hyperparameter_set.add("gamma", 0.99)
-    hyperparameter_set.add("learning_rate", 1e-3)
-    hyperparameter_set.add("layer_dimensions", [20, 10])
-    hyperparameter_set.add("epsilon_start", 0.9)
-    hyperparameter_set.add("epsilon_end", 0.05)
-    hyperparameter_set.add("epsilon_decay", 0.005)
-    hyperparameter_set.add("memory_batch_size", 100)
-    hyperparameter_set.add("target_update_interval", 2)
-
-    S.Runner(
-        env,
-        DQNAgent(
-            policy_network = S.ParameterizedNetwork(
-                learning_rate = hyperparameter_set["learning_rate"],
-                observation_space_shape = env.observation_space_shape,
-                output_feature_count = env.action_space_shape.flat_size,
-                layer_dimensions = hyperparameter_set["layer_dimensions"]
-            ),
-            target_network = S.ParameterizedNetwork(
-                learning_rate = hyperparameter_set["learning_rate"],
-                observation_space_shape = env.observation_space_shape,
-                output_feature_count = env.action_space_shape.flat_size,
-                layer_dimensions = hyperparameter_set["layer_dimensions"]
-            ),
-            epsilon_greedy_strategy = S.EpsilonGreedyStrategy(
-                start = hyperparameter_set["epsilon_start"],
-                end = hyperparameter_set["epsilon_end"],
-                decay = hyperparameter_set["epsilon_decay"]
-            ),
-            hyperparameter_set = hyperparameter_set
-        ),
-        episode_count = 500,
-        hyperparameter_set = hyperparameter_set,
-        tensorboard_output_dir = "./runs/DQN"
-    ).run()

@@ -1,24 +1,14 @@
-import operator
-from functools import reduce
-
 import torch as T
 import torch.nn.functional as F
-from torch.utils.tensorboard import SummaryWriter
 
-import numpy as np
+from .AgentBase import AgentBase
 
-import gym
-
-import sophiedl as S
-
-class PGOAgent(S.AgentBase):
+class AgentPGO(AgentBase):
     def __init__(self,
         policy_network,
-        hyperparameter_set,
-        tensorboard_summary_writer = None):
+        hyperparameter_set):
         super().__init__(
-            hyperparameter_set,
-            tensorboard_summary_writer
+            hyperparameter_set
         )
 
         self.policy_network = policy_network
@@ -37,7 +27,7 @@ class PGOAgent(S.AgentBase):
     def on_should_learn(self, runner_context):
         return runner_context.done
 
-    def on_learn(self):
+    def on_learn(self, runner_context):
         self.policy_network.optimizer.zero_grad()
 
         discounted_future_rewards = T.zeros(len(self.memory_buffer), dtype = T.float, device = self.policy_network.device)
@@ -67,29 +57,3 @@ class PGOAgent(S.AgentBase):
         self.policy_network.optimizer.step()
 
         self.clear_memory()
-
-if __name__ == "__main__":
-    env = S.EnvironmentGymWrapper(
-        gym.make("LunarLander-v2")
-    )
-
-    hyperparameter_set = S.HyperparameterSet()
-    hyperparameter_set.add("gamma", 0.99)
-    hyperparameter_set.add("learning_rate", 0.001)
-    hyperparameter_set.add("layer_dimensions", [128, 128])
-
-    S.Runner(
-        env,
-        PGOAgent(
-            policy_network = S.ParameterizedNetwork(
-                learning_rate = hyperparameter_set["learning_rate"],
-                observation_space_shape = env.observation_space_shape,
-                output_feature_count = env.action_space_shape.flat_size,
-                layer_dimensions = hyperparameter_set["layer_dimensions"]
-            ),
-            hyperparameter_set = hyperparameter_set
-        ),
-        episode_count = 2500,
-        hyperparameter_set = hyperparameter_set,
-        tensorboard_output_dir = "./runs/PGO"
-    ).run()

@@ -36,7 +36,7 @@ class ParameterizedNetwork(nn.Module):
         self.to(self.device)
 
     def forward(self, observation):
-        x = T.as_tensor(observation)
+        x = T.as_tensor(observation, dtype = T.float32, device = self.device)
         x = F.relu(self.input_layer(x))
 
         for hidden_layer in self.hidden_layers:

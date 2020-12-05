@@ -5,31 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "DQN",
+            "name": "Test",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}/DQN.py",
-            "console": "integratedTerminal"
-        },
-        {
-            "name": "PGO",
-            "type": "python",
-            "request": "launch",
-            "program": "${workspaceFolder}/PGO.py",
-            "console": "integratedTerminal"
-        },
-        {
-            "name": "Discrete Actor Critic",
-            "type": "python",
-            "request": "launch",
-            "program": "${workspaceFolder}/DiscreteActorCritic.py",
-            "console": "integratedTerminal"
-        },
-        {
-            "name": "Continuous Actor Critic",
-            "type": "python",
-            "request": "launch",
-            "program": "${workspaceFolder}/ContinuousActorCritic.py",
+            "program": "${workspaceFolder}/test.py",
+            "args": [
+                "--factory",
+                "AgentEnvironmentFactoryPGOLunarLanderV2",
+                "--episode-count",
+                "2500",
+                "--tensorboard-output-dir",
+                "${workspaceFolder}/runs"
+            ],
             "console": "integratedTerminal"
         }
     ]

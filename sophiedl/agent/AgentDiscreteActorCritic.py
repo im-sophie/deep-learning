@@ -1,25 +1,15 @@
-import operator
-from functools import reduce
-
 import torch as T
 import torch.nn.functional as F
-from torch.utils.tensorboard import SummaryWriter
 
-import numpy as np
+from .AgentBase import AgentBase
 
-import gym
-
-import sophiedl as S
-
-class ActorCriticAgent(S.AgentBase):
+class AgentDiscreteActorCritic(AgentBase):
     def __init__(self,
         actor_network,
         critic_network,
-        hyperparameter_set,
-        tensorboard_summary_writer = None):
+        hyperparameter_set):
         super().__init__(
-            hyperparameter_set,
-            tensorboard_summary_writer
+            hyperparameter_set
         )
 
         self.actor_network = actor_network
@@ -39,7 +29,7 @@ class ActorCriticAgent(S.AgentBase):
     def on_should_learn(self, runner_context):
         return len(self.memory_buffer) > 0
 
-    def on_learn(self):
+    def on_learn(self, runner_context):
         assert self.memory_buffer[-1].observation_current.shape == self.critic_network.observation_space_shape, "observation must match expected shape"
         assert self.memory_buffer[-1].observation_next.shape == self.critic_network.observation_space_shape, "observation must match expected shape"
 
@@ -62,37 +52,3 @@ class ActorCriticAgent(S.AgentBase):
 
         self.actor_network.optimizer.step()
         self.critic_network.optimizer.step()
-
-if __name__ == "__main__":
-    env = S.EnvironmentGymWrapper(
-        gym.make("CartPole-v0")
-    )
-
-    hyperparameter_set = S.HyperparameterSet()
-    hyperparameter_set.add("learning_rate_actor", 1e-5)
-    hyperparameter_set.add("learning_rate_critic", 5e-4)
-    hyperparameter_set.add("layer_dimensions_actor", [32, 32])
-    hyperparameter_set.add("layer_dimensions_critic", [32, 32])
-    hyperparameter_set.add("gamma", 0.99)
-
-    S.Runner(
-        env,
-        ActorCriticAgent(
-            actor_network = S.ParameterizedNetwork(
-                learning_rate = hyperparameter_set["learning_rate_actor"],
-                observation_space_shape = env.observation_space_shape,
-                output_feature_count = env.action_space_shape.flat_size,
-                layer_dimensions = hyperparameter_set["layer_dimensions_actor"]
-            ),
-            critic_network = S.ParameterizedNetwork(
-                learning_rate = hyperparameter_set["learning_rate_critic"],
-                observation_space_shape = env.observation_space_shape,
-                output_feature_count = 1,
-                layer_dimensions = hyperparameter_set["layer_dimensions_critic"]
-            ),
-            hyperparameter_set = hyperparameter_set
-        ),
-        episode_count = 2500,
-        hyperparameter_set = hyperparameter_set,
-        tensorboard_output_dir = "./runs/ActorCritic"
-    ).run()
