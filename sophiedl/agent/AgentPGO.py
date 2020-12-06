@@ -14,10 +14,12 @@ class AgentPGO(AgentBase):
         self.policy_network = policy_network
     
     def on_act(self, runner_context, observation):
-        assert observation.shape == self.policy_network.observation_space_shape, "observation must match expected shape"
-
         action_probabilities = T.distributions.Categorical(
-            F.softmax(self.policy_network.forward(observation))
+            F.softmax(
+                self.policy_network.forward(
+                    T.as_tensor(observation, dtype = T.float32, device = self.policy_network.device)
+                )
+            )
         )
 
         action = action_probabilities.sample()

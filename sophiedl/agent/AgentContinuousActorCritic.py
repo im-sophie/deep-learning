@@ -16,9 +16,9 @@ class AgentContinuousActorCritic(AgentBase):
         self.critic_network = critic_network
     
     def on_act(self, runner_context, observation):
-        assert observation.shape == self.actor_network.observation_space_shape, "observation must match expected shape"
-
-        mu, sigma = self.actor_network.forward(observation)
+        mu, sigma = self.actor_network.forward(
+            T.as_tensor(observation, dtype = T.float32, device = self.actor_network.device)
+        )
 
         action_probabilities = T.distributions.Normal(
             mu,
@@ -35,14 +35,15 @@ class AgentContinuousActorCritic(AgentBase):
         return len(self.memory_buffer) > 0
 
     def on_learn(self, runner_context):
-        assert self.memory_buffer[-1].observation_current.shape == self.critic_network.observation_space_shape, "observation must match expected shape"
-        assert self.memory_buffer[-1].observation_next.shape == self.critic_network.observation_space_shape, "observation must match expected shape"
-
         self.actor_network.optimizer.zero_grad()
         self.critic_network.optimizer.zero_grad()
 
-        critic_value = self.critic_network.forward(self.memory_buffer[-1].observation_current)
-        critic_value_next = self.critic_network.forward(self.memory_buffer[-1].observation_next)
+        critic_value = self.critic_network.forward(
+            T.as_tensor(self.memory_buffer[-1].observation_current, dtype = T.float32, device = self.critic_network.device)
+        )
+        critic_value_next = self.critic_network.forward(
+            T.as_tensor(self.memory_buffer[-1].observation_next, dtype = T.float32, device = self.critic_network.device)
+        )
 
         delta = (
             self.memory_buffer[-1].reward

@@ -1,9 +1,11 @@
+import torch.nn as nn
+
 import gym
 
 from ...environment import EnvironmentGymWrapper
 from ...HyperparameterSet import HyperparameterSet
 from ...agent import AgentPGO
-from ...network import ParameterizedLinearNetwork
+from ...network import ParameterizedLinearNetwork, OptimizedSequential
 from ..AgentEnvironmentFactoryBase import AgentEnvironmentFactoryBase
 
 class AgentEnvironmentFactoryPGOLunarLanderV2(AgentEnvironmentFactoryBase):
@@ -11,7 +13,6 @@ class AgentEnvironmentFactoryPGOLunarLanderV2(AgentEnvironmentFactoryBase):
         hyperparameter_set = HyperparameterSet()
         hyperparameter_set.add("gamma", 0.99)
         hyperparameter_set.add("learning_rate", 0.001)
-        hyperparameter_set.add("layer_dimensions", [128, 128])
         return hyperparameter_set
     
     def on_create_environment(self):
@@ -21,11 +22,23 @@ class AgentEnvironmentFactoryPGOLunarLanderV2(AgentEnvironmentFactoryBase):
     
     def on_create_agent(self, environment, hyperparameter_set):
         return AgentPGO(
-            policy_network = ParameterizedLinearNetwork(
-                learning_rate = hyperparameter_set["learning_rate"],
-                observation_space_shape = environment.observation_space_shape,
-                output_feature_count = environment.action_space_shape.flat_size,
-                layer_dimensions = hyperparameter_set["layer_dimensions"]
+            policy_network = OptimizedSequential(
+                nn.Linear(
+                    *environment.observation_space_shape,
+                    128
+                ),
+                nn.ReLU(),
+                nn.Linear(
+                    128,
+                    128
+                ),
+                nn.ReLU(),
+                nn.Linear(
+                    128,
+                    environment.action_space_shape.flat_size
+                ),
+                optimizer_factory = OptimizedSequential.optimizer_factory_adam,
+                learning_rate = hyperparameter_set["learning_rate"]
             ),
             hyperparameter_set = hyperparameter_set
         )

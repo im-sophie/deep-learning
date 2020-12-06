@@ -25,8 +25,6 @@ class AgentDQN(AgentBase):
         self.target_network.eval()
     
     def on_act(self, runner_context, observation):
-        assert observation.shape == self.policy_network.observation_space_shape, "observation must match expected shape"
-
         if self.epsilon_greedy_strategy.should_explore(runner_context):
             self._explore_count += 1
             return random.randint(0, runner_context.environment.action_space_shape.flat_size - 1), None

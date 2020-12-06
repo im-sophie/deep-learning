@@ -11,9 +11,9 @@
             "program": "${workspaceFolder}/test.py",
             "args": [
                 "--factory",
-                "AgentEnvironmentFactoryDQNSuperMarioBrosV0",
+                "AgentEnvironmentFactoryPGOLunarLanderV2",
                 "--episode-count",
-                "100",
+                "2500",
                 "--tensorboard-output-dir",
                 "${workspaceFolder}/runs"
             ],
