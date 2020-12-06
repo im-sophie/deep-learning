@@ -1,4 +1,4 @@
-# Read Me
+# Read me
 
 Welcome to my deep learning practice repo.
 
@@ -23,7 +23,7 @@ $ source ./env/bin/activate # on MacOS, Linux
 > .\env\Scripts\Activate # on Windows (PowerShell)
 ```
 
-## How to Run
+## How to run
 
 Run by executing `test.py`:
 
@@ -36,4 +36,11 @@ An example, would be:
 $ python test.py --factory AgentEnvironmentFactoryDQNCartPoleV0 \
   --episode-count 500 \
   --tensorboard-output-dir ./runs
+```
+
+## How to update `requirements.txt`
+
+```bash
+$ pip freeze > requirements.txt # on most environments
+> .\env\Scripts\pip.exe freeze > requirements.txt # from VS Code PowerShell console on Windows
 ```

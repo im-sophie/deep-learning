@@ -1,4 +1,6 @@
-import gym
+from nes_py.wrappers import JoypadSpace
+import gym_super_mario_bros
+import gym_super_mario_bros.actions
 
 from ...environment import EnvironmentGymWrapper
 from ...HyperparameterSet import HyperparameterSet
@@ -6,7 +8,7 @@ from ...agent import AgentDQN, EpsilonGreedyStrategy
 from ...network import ParameterizedLinearNetwork
 from ..AgentEnvironmentFactoryBase import AgentEnvironmentFactoryBase
 
-class AgentEnvironmentFactoryDQNCartPoleV0(AgentEnvironmentFactoryBase):
+class AgentEnvironmentFactoryDQNSuperMarioBrosV0(AgentEnvironmentFactoryBase):
     def on_create_default_hyperparameter_set(self):
         hyperparameter_set = HyperparameterSet()
         hyperparameter_set.add("gamma", 0.99)
@@ -18,10 +20,15 @@ class AgentEnvironmentFactoryDQNCartPoleV0(AgentEnvironmentFactoryBase):
         hyperparameter_set.add("memory_batch_size", 100)
         hyperparameter_set.add("target_update_interval", 2)
         return hyperparameter_set
-    
+
     def on_create_environment(self):
         return EnvironmentGymWrapper(
-            gym.make("CartPole-v0")
+            JoypadSpace(
+                gym_super_mario_bros.make(
+                    "SuperMarioBros-v0"
+                ),
+                gym_super_mario_bros.actions.SIMPLE_MOVEMENT
+            )
         )
     
     def on_create_agent(self, environment, hyperparameter_set):

@@ -11,9 +11,9 @@
             "program": "${workspaceFolder}/test.py",
             "args": [
                 "--factory",
-                "AgentEnvironmentFactoryContinuousActorCriticMountainCarContinuousV0",
+                "AgentEnvironmentFactoryDQNSuperMarioBrosV0",
                 "--episode-count",
-                "2500",
+                "100",
                 "--tensorboard-output-dir",
                 "${workspaceFolder}/runs"
             ],

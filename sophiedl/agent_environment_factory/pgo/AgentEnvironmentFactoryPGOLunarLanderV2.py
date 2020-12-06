@@ -3,7 +3,7 @@ import gym
 from ...environment import EnvironmentGymWrapper
 from ...HyperparameterSet import HyperparameterSet
 from ...agent import AgentPGO
-from ...network import ParameterizedNetwork
+from ...network import ParameterizedLinearNetwork
 from ..AgentEnvironmentFactoryBase import AgentEnvironmentFactoryBase
 
 class AgentEnvironmentFactoryPGOLunarLanderV2(AgentEnvironmentFactoryBase):
@@ -21,7 +21,7 @@ class AgentEnvironmentFactoryPGOLunarLanderV2(AgentEnvironmentFactoryBase):
     
     def on_create_agent(self, environment, hyperparameter_set):
         return AgentPGO(
-            policy_network = ParameterizedNetwork(
+            policy_network = ParameterizedLinearNetwork(
                 learning_rate = hyperparameter_set["learning_rate"],
                 observation_space_shape = environment.observation_space_shape,
                 output_feature_count = environment.action_space_shape.flat_size,

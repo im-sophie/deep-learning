@@ -1,1 +1,2 @@
-from .AgentEnvironmentFactoryDQNCartPoleV0 import AgentEnvironmentFactoryDQNCartPoleV0
+from .AgentEnvironmentFactoryDQNCartPoleV0 import *
+from .AgentEnvironmentFactoryDQNSuperMarioBrosV0 import *

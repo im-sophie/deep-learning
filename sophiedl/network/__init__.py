@@ -1,1 +1,1 @@
-from .ParameterizedNetwork import *
+from .ParameterizedLinearNetwork import *

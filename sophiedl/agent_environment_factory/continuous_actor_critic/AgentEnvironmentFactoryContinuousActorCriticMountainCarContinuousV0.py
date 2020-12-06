@@ -3,7 +3,7 @@ import gym
 from ...environment import EnvironmentGymWrapper
 from ...HyperparameterSet import HyperparameterSet
 from ...agent import AgentContinuousActorCritic
-from ...network import ParameterizedNetwork
+from ...network import ParameterizedLinearNetwork
 from ..AgentEnvironmentFactoryBase import AgentEnvironmentFactoryBase
 
 class AgentEnvironmentFactoryContinuousActorCriticMountainCarContinuousV0(AgentEnvironmentFactoryBase):
@@ -23,13 +23,13 @@ class AgentEnvironmentFactoryContinuousActorCriticMountainCarContinuousV0(AgentE
     
     def on_create_agent(self, environment, hyperparameter_set):
         return AgentContinuousActorCritic(
-            actor_network = ParameterizedNetwork(
+            actor_network = ParameterizedLinearNetwork(
                 learning_rate = hyperparameter_set["learning_rate_actor"],
                 observation_space_shape = environment.observation_space_shape,
                 output_feature_count = 2,
                 layer_dimensions = hyperparameter_set["layer_dimensions_actor"]
             ),
-            critic_network = ParameterizedNetwork(
+            critic_network = ParameterizedLinearNetwork(
                 learning_rate = hyperparameter_set["learning_rate_critic"],
                 observation_space_shape = environment.observation_space_shape,
                 output_feature_count = 1,
