@@ -64,11 +64,13 @@ if __name__ == "__main__":
                     sys.stderr.write("error: no such factory {0}".format(repr(args.factory[0])))
                     sys.exit(1)
                 
-                if not args.episode_count or len(args.episode_count) == 0:
-                    sys.stderr.write("error: missing required argument --episode-count EPISODE_COUNT\n")
-                    sys.exit(1)
+                # if not args.episode_count or len(args.episode_count) == 0:
+                #     sys.stderr.write("error: missing required argument --episode-count EPISODE_COUNT\n")
+                #     sys.exit(1)
                 
-                factory_type().create_runner(
-                    episode_count = args.episode_count[-1],
+                factory = factory_type()
+
+                factory.create_runner(
+                    episode_count = args.episode_count[-1] if args.episode_count and len(args.episode_count) > 0 else factory.default_episode_count,
                     tensorboard_output_dir = args.tensorboard_output_dir[-1] if args.tensorboard_output_dir and len(args.tensorboard_output_dir) > 0 else None
                 ).run()

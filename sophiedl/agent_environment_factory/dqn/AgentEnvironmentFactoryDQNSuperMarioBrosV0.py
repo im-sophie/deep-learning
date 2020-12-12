@@ -1,3 +1,5 @@
+import torch.nn as nn
+
 from nes_py.wrappers import JoypadSpace
 import gym_super_mario_bros
 import gym_super_mario_bros.actions
@@ -5,7 +7,7 @@ import gym_super_mario_bros.actions
 from ...environment import EnvironmentGymWrapper
 from ...HyperparameterSet import HyperparameterSet
 from ...agent import AgentDQN, EpsilonGreedyStrategy
-from ...network import ParameterizedLinearNetwork
+from ...network import ParameterizedLinearNetwork, OptimizedSequential
 from ..AgentEnvironmentFactoryBase import AgentEnvironmentFactoryBase
 
 class AgentEnvironmentFactoryDQNSuperMarioBrosV0(AgentEnvironmentFactoryBase):
@@ -13,7 +15,7 @@ class AgentEnvironmentFactoryDQNSuperMarioBrosV0(AgentEnvironmentFactoryBase):
         hyperparameter_set = HyperparameterSet()
         hyperparameter_set.add("gamma", 0.99)
         hyperparameter_set.add("learning_rate", 1e-3)
-        hyperparameter_set.add("layer_dimensions", [20, 10])
+        # hyperparameter_set.add("layer_dimensions", [20, 10])
         hyperparameter_set.add("epsilon_start", 0.9)
         hyperparameter_set.add("epsilon_end", 0.05)
         hyperparameter_set.add("epsilon_decay", 0.005)
@@ -29,6 +31,11 @@ class AgentEnvironmentFactoryDQNSuperMarioBrosV0(AgentEnvironmentFactoryBase):
                 ),
                 gym_super_mario_bros.actions.SIMPLE_MOVEMENT
             )
+        )
+    
+    def _create_network(self):
+        return OptimizedSequential(
+            nn.
         )
     
     def on_create_agent(self, environment, hyperparameter_set):

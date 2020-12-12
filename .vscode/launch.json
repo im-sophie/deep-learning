@@ -12,8 +12,8 @@
             "args": [
                 "--factory",
                 "AgentEnvironmentFactoryPGOLunarLanderV2",
-                "--episode-count",
-                "2500",
+                // "--episode-count",
+                // "2500",
                 "--tensorboard-output-dir",
                 "${workspaceFolder}/runs"
             ],

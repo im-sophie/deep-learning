@@ -9,6 +9,9 @@ from ...network import ParameterizedLinearNetwork, OptimizedSequential
 from ..AgentEnvironmentFactoryBase import AgentEnvironmentFactoryBase
 
 class AgentEnvironmentFactoryContinuousActorCriticMountainCarContinuousV0(AgentEnvironmentFactoryBase):
+    def __init__(self):
+        super().__init__(2500)
+
     def on_create_default_hyperparameter_set(self):
         hyperparameter_set = HyperparameterSet()
         hyperparameter_set.add("learning_rate_actor", 5e-6)

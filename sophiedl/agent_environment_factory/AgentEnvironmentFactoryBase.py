@@ -13,6 +13,9 @@ AgentEnvironmentFactoryResult = namedtuple(
 )
 
 class AgentEnvironmentFactoryBase(abc.ABC):
+    def __init__(self, default_episode_count):
+        self.default_episode_count = default_episode_count
+
     @abc.abstractmethod
     def on_create_environment(self):
         pass
