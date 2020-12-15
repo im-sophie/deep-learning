@@ -1,13 +1,17 @@
+# Typing
+from typing import cast, Iterable, Tuple, Union
+
+# PyTorch
 import torch as T
 import torch.nn as nn
 import torch.nn.functional as F
 
-from .AgentBase import AgentBase
+# Internal
 from ..HyperparameterSet import HyperparameterSet
-from ..running.RunnerRLContext import RunnerRLContext
-from typing import Tuple, cast, Iterable, Union
 from ..memory.Memory import Memory
 from ..network.OptimizedModule import OptimizedModule
+from ..running.RunnerRLContext import RunnerRLContext
+from .AgentBase import AgentBase
 
 class AgentPGO(AgentBase):
     policy_network: OptimizedModule

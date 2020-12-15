@@ -1,12 +1,15 @@
-import torch.nn as nn
-
+# Gym
 import gym # type: ignore
 
+# PyTorch
+import torch.nn as nn
+
+# Internal
+from ...agent.AgentBase import AgentBase
+from ...agent.AgentDiscreteActorCritic import AgentDiscreteActorCritic
 from ...environment.EnvironmentBase import EnvironmentBase
 from ...environment.EnvironmentGymWrapper import EnvironmentGymWrapper
 from ...HyperparameterSet import HyperparameterSet
-from ...agent.AgentBase import AgentBase
-from ...agent.AgentDiscreteActorCritic import AgentDiscreteActorCritic
 from ...network.OptimizedSequential import OptimizedSequential
 from ..AgentEnvironmentFactoryBase import AgentEnvironmentFactoryBase
 

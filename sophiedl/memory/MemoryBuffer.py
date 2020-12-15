@@ -1,6 +1,11 @@
+# Typing
+from typing import List, overload, Union
+
+# PyTorch
 import torch as T
+
+# Internal
 from .Memory import Memory
-from typing import List, Union, overload
 
 class MemoryBuffer(object):
     memories: List[Memory]

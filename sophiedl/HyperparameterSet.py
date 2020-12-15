@@ -1,6 +1,13 @@
+# Future
 from __future__ import annotations
+
+# Standard library
 import itertools
-from typing import List, Any, Dict, Generator
+
+# Typing
+from typing import Any, Dict, Generator, List
+
+# Internal
 from .domain.Repr import Repr
 
 class Hyperparameter(Repr):

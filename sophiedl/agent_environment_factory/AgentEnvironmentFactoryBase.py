@@ -1,11 +1,15 @@
+# Standard library
 import abc
 from collections import namedtuple
 
-from ..running.RunnerRL import RunnerRL
+# Typing
+from typing import Optional
+
+# Internal
+from ..agent.AgentBase import AgentBase
 from ..environment.EnvironmentBase import EnvironmentBase
 from ..HyperparameterSet import HyperparameterSet
-from ..agent.AgentBase import AgentBase
-from typing import Optional
+from ..running.RunnerRL import RunnerRL
 
 AgentEnvironmentFactoryResult = namedtuple(
     "AgentEnvironmentFactoryResult",

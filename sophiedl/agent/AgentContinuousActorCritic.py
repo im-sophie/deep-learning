@@ -1,11 +1,15 @@
+# Typing
+from typing import Tuple
+
+# PyTorch
 import torch as T
 import torch.nn.functional as F
 
-from .AgentBase import AgentBase
-from ..network.OptimizedModule import OptimizedModule
+# Internal
 from ..HyperparameterSet import HyperparameterSet
+from ..network.OptimizedModule import OptimizedModule
 from ..running.RunnerRLContext import RunnerRLContext
-from typing import Tuple
+from .AgentBase import AgentBase
 
 class AgentContinuousActorCritic(AgentBase):
     actor_network: OptimizedModule

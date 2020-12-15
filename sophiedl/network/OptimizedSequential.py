@@ -1,8 +1,13 @@
+# Typing
+from typing import Callable, cast, Iterable, Optional
+
+# PyTorch
 import torch as T
 import torch.nn as nn
 import torch.optim as O
+
+# Internal
 from .OptimizedModule import OptimizedModule
-from typing import Iterable, Optional, Callable, cast
 
 class OptimizedSequential(nn.Sequential, OptimizedModule):
     learning_rate: float

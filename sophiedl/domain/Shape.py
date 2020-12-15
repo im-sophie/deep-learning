@@ -1,8 +1,13 @@
+# Future
 from __future__ import annotations
+
+# Standard library
 from collections.abc import Iterable
 from functools import reduce
-import operator
 import copy as C
+import operator
+
+# Typing
 from typing import Any, List
 
 class Shape(List[int]):

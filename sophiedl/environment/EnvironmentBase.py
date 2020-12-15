@@ -1,9 +1,16 @@
+# Standard library
 from functools import reduce
-import operator
 import abc
+import operator
+
+# Typing
+from typing import cast, Iterable, Union
+
+# PyTorch
 import torch as T
+
+# Internal
 from ..domain.Shape import Shape
-from typing import Union, Iterable, cast
 
 class EnvironmentBase(abc.ABC):
     @staticmethod

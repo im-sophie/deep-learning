@@ -1,9 +1,16 @@
+# Standard library
 import abc
+
+# Typing
+from typing import cast, Optional, Tuple, Union
+
+# PyTorch
 import torch as T
+
+# Internal
 from ..memory.MemoryBuffer import MemoryBuffer
 from ..running.RunnerRLContext import RunnerRLContext
 from ..HyperparameterSet import HyperparameterSet
-from typing import Union, Tuple, Optional, cast
 
 class AgentBase(abc.ABC):
     hyperparameter_set: HyperparameterSet

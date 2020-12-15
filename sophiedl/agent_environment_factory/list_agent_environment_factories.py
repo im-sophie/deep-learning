@@ -1,4 +1,7 @@
-from typing import List, cast
+# Typing
+from typing import cast, List
+
+# Internal
 from .AgentEnvironmentFactoryBase import AgentEnvironmentFactoryBase
 from .continuous_actor_critic.AgentEnvironmentFactoryContinuousActorCriticMountainCarContinuousV0 import AgentEnvironmentFactoryContinuousActorCriticMountainCarContinuousV0
 from .discrete_actor_critic.AgentEnvironmentFactoryDiscreteActorCriticCartPoleV0 import AgentEnvironmentFactoryDiscreteActorCriticCartPoleV0

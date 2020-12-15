@@ -1,16 +1,22 @@
-import os
+# Standard library
 import glob
+import os
 import shutil
-from typing import Optional, List
 
+# Typing
+from typing import List, Optional
+
+# Torch
 from torch.utils.tensorboard import SummaryWriter
 
+# TQDM
 import tqdm # type: ignore
 
-from .RunnerRLContext import RunnerRLContext
-from ..environment.EnvironmentBase import EnvironmentBase
+# Internal
 from ..agent.AgentBase import AgentBase
+from ..environment.EnvironmentBase import EnvironmentBase
 from ..HyperparameterSet import HyperparameterSet
+from .RunnerRLContext import RunnerRLContext
 
 class RunnerRL(object):
     environment: EnvironmentBase

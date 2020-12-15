@@ -1,7 +1,12 @@
+# Typing
+from typing import Optional
+
+# PyTorch
+from torch.utils.tensorboard import SummaryWriter
+
+# Internal
 from ..domain.Repr import Repr
 from ..environment.EnvironmentBase import EnvironmentBase
-from torch.utils.tensorboard import SummaryWriter
-from typing import Optional
 
 class RunnerRLContext(Repr):
     environment: EnvironmentBase

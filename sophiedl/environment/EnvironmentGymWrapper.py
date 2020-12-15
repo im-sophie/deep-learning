@@ -1,8 +1,15 @@
-import torch as T
+# Typing
+from typing import Any, cast, Iterable, Union
+
+#Gym
 import gym # type: ignore
-from typing import Any, Union, Iterable, cast
-from .EnvironmentBase import EnvironmentBase
+
+# PyTorch
+import torch as T
+
+# Internal
 from ..domain import Shape
+from .EnvironmentBase import EnvironmentBase
 
 class EnvironmentGymWrapper(EnvironmentBase):
     gym_environment: gym.Env

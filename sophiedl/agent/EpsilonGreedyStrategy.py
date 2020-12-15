@@ -1,6 +1,8 @@
-import random
+# Standard library
 import math
+import random
 
+# Internal
 from ..running.RunnerRLContext import RunnerRLContext
 
 class EpsilonGreedyStrategy(object):

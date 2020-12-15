@@ -1,6 +1,11 @@
-import torch as T
-from ..domain.Repr import Repr
+# Typing
 from typing import Optional, Union
+
+# PyTorch
+import torch as T
+
+# Internal
+from ..domain.Repr import Repr
 
 class Memory(Repr):
     observation_current: Optional[T.Tensor]

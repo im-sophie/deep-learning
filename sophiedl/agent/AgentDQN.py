@@ -1,15 +1,20 @@
+# Standard library
 import random
 
+# Typing
+from typing import Tuple
+
+# PyTorch
 import torch as T
 import torch.nn as nn
 import torch.nn.functional as F
 
-from .AgentBase import AgentBase
-from ..network.OptimizedModule import OptimizedModule
-from .EpsilonGreedyStrategy import EpsilonGreedyStrategy
+# Internal
 from ..HyperparameterSet import HyperparameterSet
+from ..network.OptimizedModule import OptimizedModule
 from ..running.RunnerRLContext import RunnerRLContext
-from typing import Tuple
+from .AgentBase import AgentBase
+from .EpsilonGreedyStrategy import EpsilonGreedyStrategy
 
 class AgentDQN(AgentBase):
     policy_network: OptimizedModule
