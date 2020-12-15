@@ -10,7 +10,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 # Internal
-from ..HyperparameterSet import HyperparameterSet
+from ..hyperparameters.HyperparameterSet import HyperparameterSet
 from ..network.OptimizedModule import OptimizedModule
 from ..running.RunnerRLContext import RunnerRLContext
 from .AgentBase import AgentBase

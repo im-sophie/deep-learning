@@ -9,7 +9,7 @@ from ...agent.AgentBase import AgentBase
 from ...agent.AgentContinuousActorCritic import AgentContinuousActorCritic
 from ...environment.EnvironmentBase import EnvironmentBase
 from ...environment.EnvironmentGymWrapper import EnvironmentGymWrapper
-from ...HyperparameterSet import HyperparameterSet
+from ...hyperparameters.HyperparameterSet import HyperparameterSet
 from ...network.OptimizedSequential import OptimizedSequential
 from ..AgentEnvironmentFactoryBase import AgentEnvironmentFactoryBase
 

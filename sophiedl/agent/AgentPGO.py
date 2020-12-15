@@ -7,7 +7,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 # Internal
-from ..HyperparameterSet import HyperparameterSet
+from ..hyperparameters.HyperparameterSet import HyperparameterSet
 from ..memory.Memory import Memory
 from ..network.OptimizedModule import OptimizedModule
 from ..running.RunnerRLContext import RunnerRLContext

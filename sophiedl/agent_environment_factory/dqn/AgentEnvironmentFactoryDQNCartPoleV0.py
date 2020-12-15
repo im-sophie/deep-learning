@@ -10,7 +10,7 @@ from ...agent.AgentDQN import AgentDQN
 from ...agent.EpsilonGreedyStrategy import EpsilonGreedyStrategy
 from ...environment.EnvironmentBase import EnvironmentBase
 from ...environment.EnvironmentGymWrapper import EnvironmentGymWrapper
-from ...HyperparameterSet import HyperparameterSet
+from ...hyperparameters.HyperparameterSet import HyperparameterSet
 from ...network.OptimizedSequential import OptimizedSequential
 from ..AgentEnvironmentFactoryBase import AgentEnvironmentFactoryBase
 

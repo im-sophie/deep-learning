@@ -15,7 +15,7 @@ import tqdm # type: ignore
 # Internal
 from ..agent.AgentBase import AgentBase
 from ..environment.EnvironmentBase import EnvironmentBase
-from ..HyperparameterSet import HyperparameterSet
+from ..hyperparameters.HyperparameterSet import HyperparameterSet
 from .RunnerRLContext import RunnerRLContext
 
 class RunnerRL(object):

@@ -10,7 +10,7 @@ import torch as T
 # Internal
 from ..memory.MemoryBuffer import MemoryBuffer
 from ..running.RunnerRLContext import RunnerRLContext
-from ..HyperparameterSet import HyperparameterSet
+from ..hyperparameters.HyperparameterSet import HyperparameterSet
 
 class AgentBase(abc.ABC):
     hyperparameter_set: HyperparameterSet

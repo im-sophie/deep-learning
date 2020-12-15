@@ -8,7 +8,7 @@ from typing import Optional
 # Internal
 from ..agent.AgentBase import AgentBase
 from ..environment.EnvironmentBase import EnvironmentBase
-from ..HyperparameterSet import HyperparameterSet
+from ..hyperparameters.HyperparameterSet import HyperparameterSet
 from ..running.RunnerRL import RunnerRL
 
 AgentEnvironmentFactoryResult = namedtuple(
