@@ -2,12 +2,16 @@ import torch as T
 import torch.nn.functional as F
 
 from .AgentBase import AgentBase
+from ..network.OptimizedModule import OptimizedModule
+from ..HyperparameterSet import HyperparameterSet
+from ..running.RunnerRLContext import RunnerRLContext
+from typing import Tuple
 
 class AgentDiscreteActorCritic(AgentBase):
     def __init__(self,
-        actor_network,
-        critic_network,
-        hyperparameter_set):
+        actor_network: OptimizedModule,
+        critic_network: OptimizedModule,
+        hyperparameter_set: HyperparameterSet) -> None:
         super().__init__(
             hyperparameter_set
         )
@@ -15,23 +19,24 @@ class AgentDiscreteActorCritic(AgentBase):
         self.actor_network = actor_network
         self.critic_network = critic_network
     
-    def on_act(self, runner_context, observation):
+    def on_act(self, runner_context: RunnerRLContext, observation: T.Tensor) -> Tuple[int, T.Tensor]:
         action_probabilities = T.distributions.Categorical(
             F.softmax(
                 self.actor_network.forward(
                     T.as_tensor(observation, dtype = T.float32, device = self.actor_network.device)
                 )
             )
-        )
+        ) # type: ignore
 
-        action = action_probabilities.sample()
+        action = action_probabilities.sample() # type: ignore
+        action_log_probabilities = action_probabilities.log_prob(action) # type: ignore
 
-        return action.item(), action_probabilities.log_prob(action)
+        return action.item(), action_log_probabilities
 
-    def on_should_learn(self, runner_context):
+    def on_should_learn(self, _: RunnerRLContext) -> bool:
         return len(self.memory_buffer) > 0
 
-    def on_learn(self, runner_context):
+    def on_learn(self, _: RunnerRLContext) -> None:
         self.actor_network.optimizer.zero_grad()
         self.critic_network.optimizer.zero_grad()
 
@@ -49,6 +54,7 @@ class AgentDiscreteActorCritic(AgentBase):
             - critic_value
         )
 
+        assert self.memory_buffer[-1].action_log_probabilities is not None
         actor_loss = -self.memory_buffer[-1].action_log_probabilities * delta
         critic_loss = delta ** 2
 

@@ -44,7 +44,7 @@ if __name__ == "__main__":
     if args.list_factories:
         print("Available factories (use with --factory FACTORY):")
 
-        for i in S.list_agent_factories():
+        for i in S.list_agent_environment_factories():
             print("  {0}".format(i.__name__))
         
         sys.exit(1)

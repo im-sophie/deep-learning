@@ -1,18 +1,21 @@
 import torch.nn as nn
 
-import gym
+import gym # type: ignore
 
-from ...environment import EnvironmentGymWrapper
+from ...environment.EnvironmentBase import EnvironmentBase
+from ...environment.EnvironmentGymWrapper import EnvironmentGymWrapper
 from ...HyperparameterSet import HyperparameterSet
-from ...agent import AgentDQN, EpsilonGreedyStrategy
-from ...network import ParameterizedLinearNetwork, OptimizedSequential
+from ...agent.AgentBase import AgentBase
+from ...agent.AgentDQN import AgentDQN
+from ...agent.EpsilonGreedyStrategy import EpsilonGreedyStrategy
+from ...network.OptimizedSequential import OptimizedSequential
 from ..AgentEnvironmentFactoryBase import AgentEnvironmentFactoryBase
 
 class AgentEnvironmentFactoryDQNCartPoleV0(AgentEnvironmentFactoryBase):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(500)
 
-    def on_create_default_hyperparameter_set(self):
+    def on_create_default_hyperparameter_set(self) -> HyperparameterSet:
         hyperparameter_set = HyperparameterSet()
         hyperparameter_set.add("gamma", 0.99)
         hyperparameter_set.add("learning_rate", 1e-3)
@@ -23,18 +26,18 @@ class AgentEnvironmentFactoryDQNCartPoleV0(AgentEnvironmentFactoryBase):
         hyperparameter_set.add("target_update_interval", 2)
         return hyperparameter_set
     
-    def on_create_environment(self):
+    def on_create_environment(self) -> EnvironmentBase:
         return EnvironmentGymWrapper(
             gym.make("CartPole-v0")
         )
     
-    def on_create_agent(self, environment, hyperparameter_set):
+    def on_create_agent(self, environment: EnvironmentBase, hyperparameter_set: HyperparameterSet) -> AgentBase:
         return AgentDQN(
             policy_network = OptimizedSequential(
                 nn.Linear(
                     *environment.observation_space_shape,
                     20
-                ),
+                ), # type: ignore
                 nn.ReLU(),
                 nn.Linear(
                     20,
@@ -52,7 +55,7 @@ class AgentEnvironmentFactoryDQNCartPoleV0(AgentEnvironmentFactoryBase):
                 nn.Linear(
                     *environment.observation_space_shape,
                     20
-                ),
+                ), # type: ignore
                 nn.ReLU(),
                 nn.Linear(
                     20,

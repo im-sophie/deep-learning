@@ -1,5 +1,5 @@
 class Repr(object):
-    def __repr__(self):
+    def __repr__(self) -> str:
         props = [
             "{0}={1}".format(
                 key,
@@ -15,7 +15,11 @@ class Repr(object):
 
 if __name__ == "__main__":
     class Snek(Repr):
-        def __init__(self):
+        name: str
+        length: int
+        age: str
+
+        def __init__(self) -> None:
             self.name = "Sneky"
             self.length = 3
             self.age = "rotary phone"

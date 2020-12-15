@@ -38,9 +38,14 @@ $ python test.py --factory AgentEnvironmentFactoryDQNCartPoleV0 \
   --tensorboard-output-dir ./runs
 ```
 
+## How to run type-checking
+
+```bash
+$ mypy --strict --implicit-reexport -m sophiedl
+```
+
 ## How to update `requirements.txt`
 
 ```bash
-$ pip freeze > requirements.txt # on most environments
-> .\env\Scripts\pip.exe freeze > requirements.txt # from VS Code PowerShell console on Windows
+$ pip freeze > requirements.txt
 ```

@@ -1,16 +1,27 @@
 import torch as T
 import torch.nn as nn
 import torch.optim as O
+from .OptimizedModule import OptimizedModule
+from typing import Iterable, Optional, Callable, cast
 
-class OptimizedSequential(nn.Sequential):
+class OptimizedSequential(nn.Sequential, OptimizedModule):
+    learning_rate: float
+    optimizer: O.Optimizer
+    device: T.device
+
     @staticmethod
-    def optimizer_factory_adam(parameters, learning_rate):
+    def optimizer_factory_adam(parameters: Iterable[T.Tensor], learning_rate: float) -> O.Adam:
         return O.Adam(parameters, lr = learning_rate)
 
-    def __init__(self, *args, optimizer_factory = None, learning_rate = 0):
+    def __init__(self,
+        *args: nn.Module,
+        optimizer_factory: Optional[Callable[[Iterable[T.Tensor], float], O.Adam]] = None,
+        learning_rate: float = 0):
         super().__init__(
             *args
         )
+
+        assert optimizer_factory is not None
 
         self.learning_rate = learning_rate
         self.optimizer = optimizer_factory(self.parameters(), learning_rate)

@@ -1,38 +1,38 @@
-import gym
+import gym # type: ignore
 
 import torch.nn as nn
 
-from ...environment import EnvironmentGymWrapper
+from ...environment.EnvironmentBase import EnvironmentBase
+from ...environment.EnvironmentGymWrapper import EnvironmentGymWrapper
 from ...HyperparameterSet import HyperparameterSet
-from ...agent import AgentContinuousActorCritic
-from ...network import ParameterizedLinearNetwork, OptimizedSequential
+from ...agent.AgentBase import AgentBase
+from ...agent.AgentContinuousActorCritic import AgentContinuousActorCritic
+from ...network.OptimizedSequential import OptimizedSequential
 from ..AgentEnvironmentFactoryBase import AgentEnvironmentFactoryBase
 
 class AgentEnvironmentFactoryContinuousActorCriticMountainCarContinuousV0(AgentEnvironmentFactoryBase):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(2500)
 
-    def on_create_default_hyperparameter_set(self):
+    def on_create_default_hyperparameter_set(self) -> HyperparameterSet:
         hyperparameter_set = HyperparameterSet()
         hyperparameter_set.add("learning_rate_actor", 5e-6)
         hyperparameter_set.add("learning_rate_critic", 1e-5)
-        # hyperparameter_set.add("layer_dimensions_actor", [256, 256])
-        # hyperparameter_set.add("layer_dimensions_critic", [256, 256])
         hyperparameter_set.add("gamma", 0.99)
         return hyperparameter_set
     
-    def on_create_environment(self):
+    def on_create_environment(self) -> EnvironmentBase:
         return EnvironmentGymWrapper(
             gym.make("MountainCarContinuous-v0")
         )
     
-    def on_create_agent(self, environment, hyperparameter_set):
+    def on_create_agent(self, environment: EnvironmentBase, hyperparameter_set: HyperparameterSet) -> AgentBase:
         return AgentContinuousActorCritic(
             actor_network = OptimizedSequential(
                 nn.Linear(
                     *environment.observation_space_shape,
                     256
-                ),
+                ), # type: ignore
                 nn.ReLU(),
                 nn.Linear(
                     256,
@@ -50,7 +50,7 @@ class AgentEnvironmentFactoryContinuousActorCriticMountainCarContinuousV0(AgentE
                 nn.Linear(
                     *environment.observation_space_shape,
                     256
-                ),
+                ), # type: ignore
                 nn.ReLU(),
                 nn.Linear(
                     256,
