@@ -7,8 +7,9 @@ from torch.utils.tensorboard import SummaryWriter
 # Internal
 from ..domain.Repr import Repr
 from ..environment.EnvironmentBase import EnvironmentBase
+from .RunnerContextBase import RunnerContextBase
 
-class RunnerRLContext(Repr):
+class RunnerRLContext(RunnerContextBase, Repr):
     environment: EnvironmentBase
     tensorboard_summary_writer: Optional[SummaryWriter]
     episode_index: int

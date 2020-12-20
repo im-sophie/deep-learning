@@ -1,81 +1,69 @@
-# Gym
-import gym # type: ignore
-
 # PyTorch
 import torch.nn as nn
 
+# Gym
+import gym # type: ignore
+
 # Internal
 from ...agent.AgentBase import AgentBase
-from ...agent.AgentDQN import AgentDQN
-from ...agent.EpsilonGreedyStrategy import EpsilonGreedyStrategy
+from ...agent.AgentContinuousActorCritic import AgentContinuousActorCritic
 from ...environment.EnvironmentBase import EnvironmentBase
 from ...environment.EnvironmentGymWrapper import EnvironmentGymWrapper
 from ...hyperparameters.HyperparameterSet import HyperparameterSet
 from ...network.OptimizedSequential import OptimizedSequential
-from ..AgentEnvironmentFactoryBase import AgentEnvironmentFactoryBase
+from ..RunnerRLFactoryBase import RunnerRLFactoryBase
 
-class AgentEnvironmentFactoryDQNCartPoleV0(AgentEnvironmentFactoryBase):
-    def __init__(self) -> None:
-        super().__init__(500)
-
+class RunnerRLFactoryContinuousActorCriticMountainCarContinuousV0(RunnerRLFactoryBase):
     def on_create_default_hyperparameter_set(self) -> HyperparameterSet:
         hyperparameter_set = HyperparameterSet()
+        hyperparameter_set.add("learning_rate_actor", 5e-6)
+        hyperparameter_set.add("learning_rate_critic", 1e-5)
         hyperparameter_set.add("gamma", 0.99)
-        hyperparameter_set.add("learning_rate", 1e-3)
-        hyperparameter_set.add("epsilon_start", 0.9)
-        hyperparameter_set.add("epsilon_end", 0.05)
-        hyperparameter_set.add("epsilon_decay", 0.005)
-        hyperparameter_set.add("memory_batch_size", 100)
-        hyperparameter_set.add("target_update_interval", 2)
+        hyperparameter_set.add("episode_count", 2500)
         return hyperparameter_set
     
     def on_create_environment(self) -> EnvironmentBase:
         return EnvironmentGymWrapper(
-            gym.make("CartPole-v0")
+            gym.make("MountainCarContinuous-v0")
         )
     
     def on_create_agent(self, environment: EnvironmentBase, hyperparameter_set: HyperparameterSet) -> AgentBase:
-        return AgentDQN(
-            policy_network = OptimizedSequential(
+        return AgentContinuousActorCritic(
+            actor_network = OptimizedSequential(
                 nn.Linear(
                     *environment.observation_space_shape,
-                    20
+                    256
                 ), # type: ignore
                 nn.ReLU(),
                 nn.Linear(
-                    20,
-                    10
+                    256,
+                    256
                 ),
                 nn.ReLU(),
                 nn.Linear(
-                    10,
-                    environment.action_space_shape.flat_size
+                    256,
+                    2 # for mu and sigma
                 ),
                 optimizer_factory = OptimizedSequential.optimizer_factory_adam,
-                learning_rate = hyperparameter_set["learning_rate"]
+                learning_rate = hyperparameter_set["learning_rate_actor"]
             ),
-            target_network = OptimizedSequential(
+            critic_network = OptimizedSequential(
                 nn.Linear(
                     *environment.observation_space_shape,
-                    20
+                    256
                 ), # type: ignore
                 nn.ReLU(),
                 nn.Linear(
-                    20,
-                    10
+                    256,
+                    256
                 ),
                 nn.ReLU(),
                 nn.Linear(
-                    10,
-                    environment.action_space_shape.flat_size
+                    256,
+                    1
                 ),
                 optimizer_factory = OptimizedSequential.optimizer_factory_adam,
-                learning_rate = hyperparameter_set["learning_rate"]
-            ),
-            epsilon_greedy_strategy = EpsilonGreedyStrategy(
-                start = hyperparameter_set["epsilon_start"],
-                end = hyperparameter_set["epsilon_end"],
-                decay = hyperparameter_set["epsilon_decay"]
+                learning_rate = hyperparameter_set["learning_rate_critic"]
             ),
             hyperparameter_set = hyperparameter_set
         )

@@ -10,7 +10,7 @@ from ...agent import AgentDQN, EpsilonGreedyStrategy
 from ...network import ParameterizedLinearNetwork, OptimizedSequential
 from ..AgentEnvironmentFactoryBase import AgentEnvironmentFactoryBase
 
-class AgentEnvironmentFactoryDQNSuperMarioBrosV0(AgentEnvironmentFactoryBase):
+class RunnerRLFactoryDQNSuperMarioBrosV0(AgentEnvironmentFactoryBase):
     def on_create_default_hyperparameter_set(self):
         hyperparameter_set = HyperparameterSet()
         hyperparameter_set.add("gamma", 0.99)

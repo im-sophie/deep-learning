@@ -19,12 +19,7 @@ class HyperparameterSet(object):
     def __str__(self) -> str:
         return "{{{0}}}".format(
             ", ".join(
-                [
-                    "{0}={1}".format(
-                        key,
-                        self._hyperparameters[key].value if self._hyperparameters[key].value else self._hyperparameters[key].value_list
-                    ) for key in self._hyperparameters
-                ]
+                [str(i) for i in self._hyperparameters.values()]
             )
         )
     
@@ -32,16 +27,19 @@ class HyperparameterSet(object):
         if len(values) == 0:
             raise Exception("must specify at least one value for hyperparameter")
 
-        self._hyperparameters[name] = Hyperparameter(name, list(values))
+        if name in self._hyperparameters:
+            raise Exception("hyperparameter with key {0} already exists".format(name))
+
+        self._hyperparameters[name] = Hyperparameter(name, *values)
 
     @property
     def needs_permutation(self) -> bool:
-        return any(type(i.value) == type(None) for i in self._hyperparameters.values())
+        return any(len(i) > 1 for i in self._hyperparameters.values())
 
     def permute(self) -> Generator[HyperparameterSet, None, None]:
         keys = list(self._hyperparameters.keys())
 
-        permuted_values = itertools.product(*[self._hyperparameters[i].value_list for i in keys])
+        permuted_values = itertools.product(*[self._hyperparameters[i] for i in keys])
 
         for valuation in permuted_values:
             result = HyperparameterSet()
@@ -53,7 +51,10 @@ class HyperparameterSet(object):
         if not key in self._hyperparameters:
             raise KeyError(key)
     
-        if type(self._hyperparameters[key].value) == type(None):
-            raise Exception("hyperparameter set needs permutation before it can be used")
+        return self._hyperparameters[key].single
+
+    def __setitem__(self, key: str, value: Any) -> None:
+        if not key in self._hyperparameters:
+            raise KeyError(key)
     
-        return self._hyperparameters[key].value
+        self._hyperparameters[key].assign(value)

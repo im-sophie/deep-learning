@@ -5,19 +5,11 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Test",
+            "name": "Debug PyTest",
             "type": "python",
-            "request": "launch",
-            "program": "${workspaceFolder}/test.py",
-            "args": [
-                "--factory",
-                "AgentEnvironmentFactoryPGOLunarLanderV2",
-                // "--episode-count",
-                // "2500",
-                "--tensorboard-output-dir",
-                "${workspaceFolder}/runs"
-            ],
-            "console": "integratedTerminal"
+            "request": "test",
+            "console": "integratedTerminal",
+            "justMyCode": false
         }
     ]
 }
