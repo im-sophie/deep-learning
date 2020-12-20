@@ -5,9 +5,14 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug PyTest",
+            "name": "Python: Debug Test - MNIST",
             "type": "python",
-            "request": "test",
+            "request": "launch",
+            "program": "${workspaceFolder}/test.py",
+            "args": [
+                "--factory",
+                "RunnerClassifierTorchDataLoaderFactoryMNIST"
+            ],
             "console": "integratedTerminal",
             "justMyCode": false
         }

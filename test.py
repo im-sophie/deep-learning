@@ -19,13 +19,13 @@ if __name__ == "__main__":
         "--factory",
         type = str,
         action = "append",
-        help = "Which agent/environment factory to use, --list-factories shows available factories."
+        help = "Which runner factory to use, --list-factories shows available factories."
     )
 
     parser.add_argument(
         "--list-factories",
         action = "store_true",
-        help = "Lists available agent/environment factories."
+        help = "Lists available runner factories."
     )
 
     parser.add_argument(
@@ -33,6 +33,13 @@ if __name__ == "__main__":
         type = int,
         action = "append",
         help = "How many episodes to run."
+    )
+
+    parser.add_argument(
+        "--epoch-count",
+        type = int,
+        action = "append",
+        help = "How many epochs to run."
     )
 
     parser.add_argument(
@@ -47,7 +54,7 @@ if __name__ == "__main__":
     if args.list_factories:
         print("Available factories (use with --factory FACTORY):")
 
-        for i in S.list_agent_environment_factories():
+        for i in S.list_runner_factories():
             print("  {0}".format(i.__name__))
         
         sys.exit(1)
@@ -63,17 +70,21 @@ if __name__ == "__main__":
             else:
                 factory_type = S.__dict__[args.factory[0]]
 
-                if not isinstance(factory_type, type) or not issubclass(factory_type, S.AgentEnvironmentFactoryBase):
+                if not isinstance(factory_type, type) or not issubclass(factory_type, S.RunnerFactoryBase):
                     sys.stderr.write("error: no such factory {0}".format(repr(args.factory[0])))
                     sys.exit(1)
                 
-                # if not args.episode_count or len(args.episode_count) == 0:
-                #     sys.stderr.write("error: missing required argument --episode-count EPISODE_COUNT\n")
-                #     sys.exit(1)
-                
                 factory = factory_type()
 
+                hyperparameter_set = factory.create_default_hyperparameter_set()
+
+                if args.episode_count and len(args.episode_count) > 0:
+                    hyperparameter_set["episode_count"] = args.episode_count[-1]
+
+                if args.epoch_count and len(args.epoch_count) > 0:
+                    hyperparameter_set["epoch_count"] = args.epoch_count[-1]
+
                 factory.create_runner(
-                    episode_count = args.episode_count[-1] if args.episode_count and len(args.episode_count) > 0 else factory.default_episode_count,
+                    hyperparameter_set = hyperparameter_set,
                     tensorboard_output_dir = args.tensorboard_output_dir[-1] if args.tensorboard_output_dir and len(args.tensorboard_output_dir) > 0 else None
                 ).run()

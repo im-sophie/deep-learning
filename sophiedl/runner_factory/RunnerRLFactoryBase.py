@@ -27,11 +27,9 @@ class RunnerRLFactoryBase(RunnerFactoryBase):
         tensorboard_output_dir: Optional[str]) -> RunnerRL:
         environment = self.on_create_environment()
 
-        agent = self.on_create_agent(environment, hyperparameter_set)
-
         return RunnerRL(
             environment,
-            agent,
+            self.on_create_agent(environment, hyperparameter_set),
             hyperparameter_set = hyperparameter_set,
             tensorboard_output_dir = tensorboard_output_dir
         )

@@ -27,6 +27,8 @@ class OptimizedSequential(nn.Sequential, OptimizedModule):
         )
 
         assert optimizer_factory is not None
+        assert learning_rate > 0
+        assert learning_rate < 1
 
         self.learning_rate = learning_rate
         self.optimizer = optimizer_factory(self.parameters(), learning_rate)
