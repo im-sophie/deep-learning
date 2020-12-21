@@ -8,6 +8,7 @@ from typing import Optional
 from ..agent.AgentBase import AgentBase
 from ..environment.EnvironmentBase import EnvironmentBase
 from ..hyperparameters.HyperparameterSet import HyperparameterSet
+from ..running.ObservationPreprocessorBase import ObservationPreprocessorBase
 from ..running.RunnerRL import RunnerRL
 from .RunnerFactoryBase import RunnerFactoryBase
 
@@ -22,6 +23,9 @@ class RunnerRLFactoryBase(RunnerFactoryBase):
         hyperparameter_set: HyperparameterSet) -> AgentBase:
         pass
 
+    def on_create_observation_preprocessor(self) -> Optional[ObservationPreprocessorBase]:
+        return None
+
     def on_create_runner(self,
         hyperparameter_set: HyperparameterSet,
         tensorboard_output_dir: Optional[str]) -> RunnerRL:
@@ -31,5 +35,6 @@ class RunnerRLFactoryBase(RunnerFactoryBase):
             environment,
             self.on_create_agent(environment, hyperparameter_set),
             hyperparameter_set = hyperparameter_set,
-            tensorboard_output_dir = tensorboard_output_dir
+            tensorboard_output_dir = tensorboard_output_dir,
+            observation_preprocessor = self.on_create_observation_preprocessor()
         )

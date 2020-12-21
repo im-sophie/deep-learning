@@ -47,6 +47,9 @@ class HyperparameterSet(object):
                 result.add(keys[i], valuation[i])            
             yield result
 
+    def __contains__(self, key: str) -> bool:
+        return key in self._hyperparameters
+
     def __getitem__(self, key: str) -> Any:
         if not key in self._hyperparameters:
             raise KeyError(key)

@@ -11,6 +11,7 @@ import tqdm # type: ignore
 from ..agent.AgentBase import AgentBase
 from ..environment.EnvironmentBase import EnvironmentBase
 from ..hyperparameters.HyperparameterSet import HyperparameterSet
+from .ObservationPreprocessorBase import ObservationPreprocessorBase
 from .RunnerBase import RunnerBase
 from .RunnerRLContext import RunnerRLContext
 
@@ -19,6 +20,7 @@ class RunnerRL(RunnerBase):
     agent: AgentBase
     hyperparameter_set: HyperparameterSet
     context: Optional[RunnerRLContext]
+    observation_preprocessor: Optional[ObservationPreprocessorBase]
 
     def __init__(
         self,
@@ -27,7 +29,8 @@ class RunnerRL(RunnerBase):
         hyperparameter_set: HyperparameterSet,
         tensorboard_output_dir: Optional[str] = None,
         clear_tensorboard_output_dir: bool = True,
-        moving_average_window: int = 30):
+        moving_average_window: int = 30,
+        observation_preprocessor: Optional[ObservationPreprocessorBase] = None):
         super().__init__(
             hyperparameter_set,
             tensorboard_output_dir = tensorboard_output_dir,
@@ -37,6 +40,7 @@ class RunnerRL(RunnerBase):
         self.environment = environment
         self.agent = agent
         self.context = None
+        self.observation_preprocessor = observation_preprocessor
 
     def _run_episode(self) -> None:
         assert self.context is not None
@@ -45,10 +49,16 @@ class RunnerRL(RunnerBase):
         done = False
         observation = self.environment.reset()
 
+        if self.observation_preprocessor:
+            observation = self.observation_preprocessor(observation)
+
         while not done:
             action = self.agent.act(self.context, observation)
             
             observation, reward, done, _ = self.environment.step(action)
+
+            if self.observation_preprocessor:
+                observation = self.observation_preprocessor(observation)
             
             self.agent.reward(reward, observation, done)
             
@@ -59,6 +69,9 @@ class RunnerRL(RunnerBase):
             
             self.context.step_index_episode += 1
             self.context.step_index_total += 1
+
+            if "episode_max_length" in self.hyperparameter_set and self.context.step_index_episode > self.hyperparameter_set["episode_max_length"]:
+                break
 
         self.context.add_scalar("Reward Sum", self.context.reward_sum, self.context.episode_index)
         self.context.add_scalar("Episode Length", self.context.step_index_episode, self.context.episode_index)

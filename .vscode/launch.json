@@ -15,6 +15,20 @@
             ],
             "console": "integratedTerminal",
             "justMyCode": false
+        },
+        {
+            "name": "Python: Debug Test - Super Mario Bros",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/test.py",
+            "args": [
+                "--factory",
+                "RunnerRLFactoryDQNSuperMarioBrosV0",
+                "--tensorboard-output-dir",
+                "runs"
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": false
         }
     ]
 }

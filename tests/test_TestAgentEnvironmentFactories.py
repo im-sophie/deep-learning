@@ -10,7 +10,10 @@ class TestAgentEnvironmentFactories(object):
         for runner_factory_type in S.list_runner_factories():
             runner_factory = runner_factory_type()
             hyperparameter_set = runner_factory.create_default_hyperparameter_set()
-            hyperparameter_set["episode_count"] = 2
+            if "episode_count" in hyperparameter_set:
+                hyperparameter_set["episode_count"] = 2
+            if "epoch_count" in hyperparameter_set:
+                hyperparameter_set["epoch_count"] = 2
             runner_factory.create_runner(
                 hyperparameter_set = hyperparameter_set
             ).run()
