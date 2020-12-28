@@ -1,8 +1,15 @@
-# Gym
-import gym # type: ignore
+# Typing
+from typing import cast, Union
+
+# NumPy
+import numpy as np # type: ignore
 
 # PyTorch
+import torch as T
 import torch.nn as nn
+
+# Gym
+import gym # type: ignore
 
 # Internal
 from ...agent.AgentBase import AgentBase
@@ -24,7 +31,9 @@ class RunnerRLFactoryDiscreteActorCriticCartPoleV0(RunnerRLFactoryBase):
     
     def on_create_environment(self) -> EnvironmentBase:
         return EnvironmentGymWrapper(
-            gym.make("CartPole-v0")
+            gym.make("CartPole-v0"),
+            np.ndarray,
+            int
         )
     
     def on_create_agent(self, environment: EnvironmentBase, hyperparameter_set: HyperparameterSet) -> AgentBase:

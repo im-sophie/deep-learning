@@ -1,4 +1,11 @@
+# Typing
+from typing import cast, Tuple, Union
+
+# NumPy
+import numpy as np # type: ignore
+
 # PyTorch
+import torch as T
 import torch.nn as nn
 
 # Gym
@@ -24,7 +31,9 @@ class RunnerRLFactoryContinuousActorCriticMountainCarContinuousV0(RunnerRLFactor
     
     def on_create_environment(self) -> EnvironmentBase:
         return EnvironmentGymWrapper(
-            gym.make("MountainCarContinuous-v0")
+            gym.make("MountainCarContinuous-v0"),
+            np.ndarray,
+            np.ndarray
         )
     
     def on_create_agent(self, environment: EnvironmentBase, hyperparameter_set: HyperparameterSet) -> AgentBase:

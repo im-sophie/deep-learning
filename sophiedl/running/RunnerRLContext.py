@@ -1,7 +1,8 @@
 # Typing
-from typing import Optional
+from typing import Optional, Union
 
 # PyTorch
+import torch as T
 from torch.utils.tensorboard import SummaryWriter
 
 # Internal

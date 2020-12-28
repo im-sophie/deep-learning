@@ -1,9 +1,6 @@
 # Standard library
 import sys
 
-# Gym
-import gym
-
 # SophieDL
 import sophiedl as S
 
