@@ -4,14 +4,15 @@ from .agent.AgentDiscreteActorCritic import AgentDiscreteActorCritic
 from .agent.AgentDQN import AgentDQN
 from .agent.AgentPGO import AgentPGO
 from .agent.EpsilonGreedyStrategy import EpsilonGreedyStrategy
+from .domain.exceptions import TreeVerificationError
 from .domain.Repr import Repr
 from .domain.Shape import Shape
 from .environment.EnvironmentBase import EnvironmentBase
 from .environment.EnvironmentGymWrapper import EnvironmentGymWrapper
 from .environment.EnvironmentTransformBase import EnvironmentTransformBase
-from .environment.EnvironmentTransformSkipFrames import EnvironmentTransformSkipFrames
 from .environment.EnvironmentTransformCopyNDArray import EnvironmentTransformCopyNDArray
 from .environment.EnvironmentTransformPyTorchTransforms import EnvironmentTransformPyTorchTransforms
+from .environment.EnvironmentTransformSkipFrames import EnvironmentTransformSkipFrames
 from .hyperparameters.Hyperparameter import Hyperparameter
 from .hyperparameters.HyperparameterSet import HyperparameterSet
 from .memory.Memory import Memory
