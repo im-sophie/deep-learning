@@ -29,6 +29,14 @@
             ],
             "console": "integratedTerminal",
             "justMyCode": false
+        },
+        {
+            "name": "Python: Debug Symbolic Test",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/symbolic_test.py",
+            "console": "integratedTerminal",
+            "justMyCode": false
         }
     ]
 }

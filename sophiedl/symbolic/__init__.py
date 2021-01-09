@@ -1,3 +1,6 @@
+from .synthesis.TreeSynthesizerBase import TreeSynthesizerBase
+from .synthesis.TreeSynthesizerEnumerative import TreeSynthesizerEnumerative
+from .synthesis.TreeSynthesizerStochastic import TreeSynthesizerStochastic
 from .tree.Precedence import Precedence
 from .tree.Scope import Scope
 from .tree.ScopeFrame import ScopeFrame

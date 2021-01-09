@@ -1,5 +1,8 @@
+# Standard library
+import itertools
+
 # Typing
-from typing import cast, Iterable, List
+from typing import cast, Iterable, Iterator, List
 
 # Internal
 from .formatting import format_newline, format_color_symbol, format_color_default
@@ -32,12 +35,15 @@ class Scope(object):
                 return
 
         raise KeyError(key)
+    
+    def __iter__(self) -> Iterator[str]:
+        return iter(self.keys())
 
     def __str__(self) -> str:
         return self.format(color = False)
 
     def keys(self) -> Iterable[str]:
-        return set(cast(Iterable[str], sum(i.keys() if any(i.keys()) else [] for i in self._frames)))
+        return set(itertools.chain(*[list(i.keys()) for i in self._frames]))
 
     def format(self, indent: int = 0, indent_width: int = 2, color: bool = True) -> str:
         s = ""
