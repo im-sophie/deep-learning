@@ -6,7 +6,7 @@ import abc
 import enum
 
 # Typing
-from typing import Any, Iterable, Tuple, TYPE_CHECKING
+from typing import Any, Callable, cast, Iterable, Optional, Tuple, TYPE_CHECKING
 
 # Internal
 if TYPE_CHECKING:
@@ -19,17 +19,16 @@ class TreeBase(abc.ABC):
                 isinstance(value, list) and any(isinstance(i, TreeBase) for i in value) or
                 isinstance(value, dict) and any(isinstance(i, TreeBase) for i in value.values()))
 
+    @abc.abstractmethod
+    def on_format(self, indent: int, indent_width: int, color: bool) -> str:
+        pass
+
+    @abc.abstractmethod
+    def on_verify(self, scope: "Scope") -> None:
+        pass
+
     def __eq__(self, other: object) -> bool:
-        if type(self) != type(other):
-            return False
-
-        for name, value in self.members:
-            if not name in other.__dict__:
-                return False
-            elif value != other.__dict__[name]:
-                return False
-
-        return True
+        return self.compare(cast(TreeBase, other))
 
     def __str__(self) -> str:
         return self.format(color = False)
@@ -66,16 +65,27 @@ class TreeBase(abc.ABC):
                     if isinstance(i, TreeBase):
                         yield i
 
-    @abc.abstractmethod
-    def on_format(self, indent: int, indent_width: int, color: bool) -> str:
-        pass
+    def compare(self, other: TreeBase, comparator: Optional[Callable[[TreeBase, TreeBase], Optional[bool]]] = None) -> bool:
+        if comparator is not None:
+            comparator_result = comparator(self, other)
+            if comparator_result is not None:
+                return comparator_result
+
+        if type(self) != type(other):
+            return False
+
+        for name, value in self.members:
+            if not name in other.__dict__:
+                return False
+            elif TreeBase._is_child_member(value) and not value.compare(other.__dict__[name], comparator):
+                return False
+            elif not TreeBase._is_child_member(value) and value != other.__dict__[name]:
+                return False
+
+        return True
 
     def format(self, indent: int = 0, indent_width: int = 2, color: bool = True) -> str:
         return self.on_format(indent, indent_width, color)
-
-    @abc.abstractmethod
-    def on_verify(self, scope: "Scope") -> None:
-        pass
 
     def verify(self, scope: "Scope") -> None:
         self.on_verify(scope)

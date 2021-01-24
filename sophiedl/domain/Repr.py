@@ -4,7 +4,7 @@ class Repr(object):
             "{0}={1}".format(
                 key,
                 repr(self.__dict__[key])
-            ) for key in self.__dict__ if type(self.__dict__[key]) != type(None)
+            ) for key in self.__dict__ if self.__dict__[key] is not None
         ]
 
         return "<{0}{1}{2}>".format(

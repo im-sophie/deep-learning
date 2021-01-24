@@ -23,6 +23,10 @@ class TypeAtomic(TypeBase):
     def on_verify(self, scope: Scope) -> None:
         pass
 
+class TypeWildcard(TypeAtomic):
+    def __init__(self) -> None:
+        super().__init__("*")
+
 class TypeBool(TypeAtomic):
     def __init__(self) -> None:
         super().__init__("Bool")

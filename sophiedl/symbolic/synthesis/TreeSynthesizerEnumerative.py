@@ -32,7 +32,7 @@ class TreeSynthesizerEnumerative(TreeSynthesizerBase):
             return []
 
     def _get_callable_symbols_with_return_type(self, type_: TypeBase) -> List[ValueSymbol]:
-        return [ValueSymbol(i) for i in self.scope if isinstance(self.scope[i], TypeFunction) and self.scope[i].return_type == type_]
+        return [ValueSymbol(i) for i in self.scope if isinstance(self.scope[i], TypeFunction) and cast(TypeFunction, self.scope[i]).return_type == type_]
 
     def _create_factories_of_type(self, type_: TypeBase) -> Generator[Tuple[List[TypeBase], Callable[[Iterable[ValueBase]], ValueBase]], None, None]:
         for i in self._get_literals_of_type(type_):
@@ -82,7 +82,7 @@ class TreeSynthesizerEnumerative(TreeSynthesizerBase):
             for arg_types, factory in self._create_factories_of_type(type_):
                 if len(arg_types) == 0 and self.on_can_use_factory(type_, arg_types):
                     cache[type(type_)].append(factory([]))
-        
+
         # Use factories to synthesize intermediate layers
         if self.max_depth > 2:
             for i in range(self.max_depth-2):
@@ -94,12 +94,12 @@ class TreeSynthesizerEnumerative(TreeSynthesizerBase):
                             arg_value_sets = []
                             for arg_type in arg_types:
                                 arg_value_sets.append(cache[type(arg_type)])
-                            
+
                             for arg_valuation in itertools.product(*arg_value_sets):
                                 cache_next[type(type_)].append(factory(arg_valuation))
-                
-                for i in cache:
-                    cache[i] += cache_next[i]
+
+                for j in cache:
+                    cache[j] += cache_next[j]
 
         # Use factories to synthesize final layer
         if self.max_depth > 1:
@@ -108,6 +108,6 @@ class TreeSynthesizerEnumerative(TreeSynthesizerBase):
                     arg_value_sets = []
                     for arg_type in arg_types:
                         arg_value_sets.append(cache[type(arg_type)])
-                    
+
                     for arg_valuation in itertools.product(*arg_value_sets):
                         yield factory(arg_valuation)

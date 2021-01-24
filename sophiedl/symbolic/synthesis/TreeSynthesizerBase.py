@@ -1,6 +1,7 @@
 # Standard library
 import abc
 import itertools
+import random
 
 # Typing
 from typing import Generator, Iterable
@@ -18,3 +19,11 @@ class TreeSynthesizerBase(abc.ABC):
 
     def take(self, n: int) -> Iterable[ValueBase]:
         return itertools.islice(self.synthesize(), n)
+
+    def sample(self, n: int) -> Iterable[ValueBase]:
+        population = list(self.synthesize())
+        if len(population) < n:
+            random.shuffle(population)
+            return population
+        else:
+            return random.sample(population, n)

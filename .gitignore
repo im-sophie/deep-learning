@@ -2,3 +2,5 @@ __pycache__/
 runs/
 env/
 datasets/
+.mypy_cache/
+.pytest_cache/

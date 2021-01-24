@@ -13,6 +13,19 @@ from .TypeBase import TypeBase
 from .types import TypeBool, TypeInt, TypeFunction
 from .ValueBase import ValueBase
 
+class ValueWildcard(ValueBase):
+    def __init__(self) -> None:
+        super().__init__(Precedence.TERM)
+
+    def on_format(self, indent: int, indent_width: int, color: bool) -> str:
+        return "*"
+
+    def on_get_type(self, scope: Scope) -> TypeBase:
+        raise Exception("wildcard value has no type")
+
+    def on_verify(self, scope: Scope) -> None:
+        pass
+
 class ValueLiteral(ValueBase):
     type: TypeBase
     value: Any

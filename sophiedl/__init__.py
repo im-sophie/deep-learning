@@ -4,7 +4,7 @@ from .agent.AgentDiscreteActorCritic import AgentDiscreteActorCritic
 from .agent.AgentDQN import AgentDQN
 from .agent.AgentPGO import AgentPGO
 from .agent.EpsilonGreedyStrategy import EpsilonGreedyStrategy
-from .domain.exceptions import TreeVerificationError
+from .domain.exceptions import TreeVerificationError, LexingError
 from .domain.Repr import Repr
 from .domain.Shape import Shape
 from .environment.EnvironmentBase import EnvironmentBase
@@ -20,6 +20,10 @@ from .memory.MemoryBuffer import MemoryBuffer
 from .network.CNNCell import CNNCell
 from .network.OptimizedModule import OptimizedModule
 from .network.OptimizedSequential import OptimizedSequential
+from .parsing.LexerBase import LexerBase
+from .parsing.TextReaderBase import TextReaderBase
+from .parsing.TextReaderString import TextReaderString
+from .parsing.Token import Token
 from .runner_factory.classifier.RunnerClassifierTorchDataLoaderFactoryMNIST import RunnerClassifierTorchDataLoaderFactoryMNIST
 from .runner_factory.continuous_actor_critic.RunnerRLFactoryContinuousActorCriticMountainCarContinuousV0 import RunnerRLFactoryContinuousActorCriticMountainCarContinuousV0
 from .runner_factory.discrete_actor_critic.RunnerRLFactoryDiscreteActorCriticCartPoleV0 import RunnerRLFactoryDiscreteActorCriticCartPoleV0
