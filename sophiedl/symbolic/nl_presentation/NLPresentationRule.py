@@ -21,3 +21,7 @@ class NLPresentationRule(object):
             self.format = format_
         else:
             raise Exception("unexpected type of format: {0}".format(type(format_).__name__))
+
+    @property
+    def alphabet(self) -> str:
+        return self.format.alphabet

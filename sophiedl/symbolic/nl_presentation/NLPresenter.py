@@ -13,6 +13,14 @@ class NLPresenter(object):
     def __init__(self, *args: NLPresentationRule):
         self.rules = list(args)
 
+    @property
+    def alphabet(self) -> str:
+        return "".join(
+            set().union(
+                *[i.alphabet for i in self.rules]
+            )
+        )
+
     def present(self, value: Any) -> str:
         if isinstance(value, TreeBase):
             for rule in self.rules:

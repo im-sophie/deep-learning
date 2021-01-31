@@ -43,6 +43,14 @@ class NLPresentationFormat(Repr):
             )
         else:
             self.tokens = list(value)
+    
+    @property
+    def alphabet(self) -> str:
+        return "".join(
+            set().union(
+                *[i.text for i in self.tokens if i.kind == TokenKindNLPresentationFormat.TEXT]
+            )
+        )
 
     def format(self, tree: TreeBase, field_formatter: Optional[Callable[[Any], str]] = None) -> str:
         result = ""
