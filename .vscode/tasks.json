@@ -1,0 +1,45 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Run Static Analysis - MyPy",
+            "type": "process",
+            "command": "${config:python.pythonPath}",
+            "args": [
+                "-m",
+                "mypy",
+                "--strict",
+                "--implicit-reexport",
+                "--show-column-numbers",
+                "-m",
+                "sophiedl",
+                "-m",
+                "sophiedl.symbolic"
+            ],
+            "group": "build",
+            "presentation": {
+                "reveal": "never",
+                "panel": "shared",
+                "focus": false,
+                "clear": true
+            },
+            "problemMatcher": {
+                "owner": "python",
+                "fileLocation": [
+                    "relative",
+                    "${workspaceFolder}"
+                ],
+                "pattern": {
+                    "regexp": "^(.+):(\\d+):(\\d+): (\\w+): (.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "severity": 4,
+                    "message": 5
+                }
+            }
+        }
+    ]
+}

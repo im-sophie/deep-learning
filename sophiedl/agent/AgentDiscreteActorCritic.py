@@ -12,7 +12,8 @@ from ..running.RunnerRLContext import RunnerRLContext
 from .AgentBase import AgentBase
 
 class AgentDiscreteActorCritic(AgentBase):
-    def __init__(self,
+    def __init__(
+        self,
         actor_network: OptimizedModule,
         critic_network: OptimizedModule,
         hyperparameter_set: HyperparameterSet) -> None:

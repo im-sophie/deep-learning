@@ -21,7 +21,8 @@ class LexerBase(abc.ABC, Generic[TTokenKind]):
     column_last: int
     buffer: str
 
-    def __init__(self,
+    def __init__(
+        self,
         text_reader: TextReaderBase,
         offset: int = 0,
         line: int = 1,

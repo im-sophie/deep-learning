@@ -16,8 +16,9 @@ from ..hyperparameters.HyperparameterSet import HyperparameterSet
 from ..network.OptimizedModule import OptimizedModule
 from .RunnerBase import RunnerBase
 
-class RunnerClassifierBase(RunnerBase):
-    def __init__(self,
+class RunnerNetworkBase(RunnerBase):
+    def __init__(
+        self,
         hyperparameter_set: HyperparameterSet,
         network: OptimizedModule) -> None:
         super().__init__(hyperparameter_set)

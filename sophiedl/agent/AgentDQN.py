@@ -21,7 +21,8 @@ class AgentDQN(AgentBase):
     target_network: OptimizedModule
     epsilon_greedy_strategy: EpsilonGreedyStrategy
     
-    def __init__(self,
+    def __init__(
+        self,
         policy_network: OptimizedModule,
         target_network: OptimizedModule,
         epsilon_greedy_strategy: EpsilonGreedyStrategy,

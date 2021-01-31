@@ -8,13 +8,13 @@ from typing import Optional
 import torch as T
 
 # Internal
-from ..hyperparameters.HyperparameterSet import HyperparameterSet
-from ..network.OptimizedModule import OptimizedModule
-from ..running.RunnerBase import RunnerBase
-from ..running.RunnerClassifierTorchDataLoader import RunnerClassifierTorchDataLoader
+from ...hyperparameters.HyperparameterSet import HyperparameterSet
+from ...network.OptimizedModule import OptimizedModule
+from ...running.RunnerBase import RunnerBase
+from ...running.RunnerNetworkTorchDataLoader import RunnerNetworkTorchDataLoader
 from .RunnerFactoryBase import RunnerFactoryBase
 
-class RunnerClassifierTorchDataLoaderFactoryBase(RunnerFactoryBase):
+class RunnerNetworkTorchDataLoaderFactoryBase(RunnerFactoryBase):
     @abc.abstractmethod
     def on_create_network(self, hyperparameter_set: HyperparameterSet) -> OptimizedModule:
         pass
@@ -27,10 +27,11 @@ class RunnerClassifierTorchDataLoaderFactoryBase(RunnerFactoryBase):
     def on_create_dataset_testing(self) -> T.utils.data.Dataset[T.Tensor]:
         pass
 
-    def on_create_runner(self,
+    def on_create_runner(
+        self,
         hyperparameter_set: HyperparameterSet,
         tensorboard_output_dir: Optional[str]) -> RunnerBase:
-        return RunnerClassifierTorchDataLoader(
+        return RunnerNetworkTorchDataLoader(
             hyperparameter_set,
             self.on_create_network(hyperparameter_set),
             T.utils.data.DataLoader(

@@ -31,7 +31,8 @@ class NLPresentationFormat(Repr):
 
     tokens: List[Token[TokenKindNLPresentationFormat]]
 
-    def __init__(self,
+    def __init__(
+        self,
         value: Union[str, Iterable[Token[TokenKindNLPresentationFormat]]]) -> None:
         if isinstance(value, str):
             self.tokens = list(
@@ -48,7 +49,7 @@ class NLPresentationFormat(Repr):
     def alphabet(self) -> str:
         return "".join(
             set().union(
-                *[i.text for i in self.tokens if i.kind == TokenKindNLPresentationFormat.TEXT]
+                *[i.text for i in self.tokens if i.kind == TokenKindNLPresentationFormat.TEXT] # type: ignore
             )
         )
 

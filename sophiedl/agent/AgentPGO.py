@@ -16,7 +16,8 @@ from .AgentBase import AgentBase
 class AgentPGO(AgentBase):
     policy_network: OptimizedModule
 
-    def __init__(self,
+    def __init__(
+        self,
         policy_network: OptimizedModule,
         hyperparameter_set: HyperparameterSet) -> None:
         super().__init__(

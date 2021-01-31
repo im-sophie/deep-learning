@@ -15,7 +15,8 @@ class AgentContinuousActorCritic(AgentBase):
     actor_network: OptimizedModule
     critic_network: OptimizedModule
 
-    def __init__(self,
+    def __init__(
+        self,
         actor_network: OptimizedModule,
         critic_network: OptimizedModule,
         hyperparameter_set: HyperparameterSet):

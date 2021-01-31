@@ -27,9 +27,7 @@ from ...environment.EnvironmentTransformSkipFrames import EnvironmentTransformSk
 from ...hyperparameters.HyperparameterSet import HyperparameterSet
 from ...network.CNNCell import CNNCell
 from ...network.OptimizedSequential import OptimizedSequential
-from ...running.ObservationPreprocessorBase import ObservationPreprocessorBase
-from ...running.ObservationPreprocessorSuperMarioBrosV0 import ObservationPreprocessorSuperMarioBrosV0
-from ..RunnerRLFactoryBase import RunnerRLFactoryBase
+from ..base.RunnerRLFactoryBase import RunnerRLFactoryBase
 
 class RunnerRLFactoryDQNSuperMarioBrosV0(RunnerRLFactoryBase):
     def on_create_default_hyperparameter_set(self) -> HyperparameterSet:
@@ -165,6 +163,3 @@ class RunnerRLFactoryDQNSuperMarioBrosV0(RunnerRLFactoryBase):
             ),
             hyperparameter_set = hyperparameter_set
         )
-
-    def on_create_observation_preprocessor(self) -> Optional[ObservationPreprocessorBase]:
-        return ObservationPreprocessorSuperMarioBrosV0()

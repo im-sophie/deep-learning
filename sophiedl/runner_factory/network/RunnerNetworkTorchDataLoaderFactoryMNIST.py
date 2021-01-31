@@ -9,9 +9,9 @@ from ...hyperparameters.HyperparameterSet import HyperparameterSet
 from ...network.CNNCell import CNNCell
 from ...network.OptimizedModule import OptimizedModule
 from ...network.OptimizedSequential import OptimizedSequential
-from ..RunnerClassifierTorchDataLoaderFactoryBase import RunnerClassifierTorchDataLoaderFactoryBase
+from ..base.RunnerNetworkTorchDataLoaderFactoryBase import RunnerNetworkTorchDataLoaderFactoryBase
 
-class RunnerClassifierTorchDataLoaderFactoryMNIST(RunnerClassifierTorchDataLoaderFactoryBase):
+class RunnerNetworkTorchDataLoaderFactoryMNIST(RunnerNetworkTorchDataLoaderFactoryBase):
     def on_create_default_hyperparameter_set(self) -> HyperparameterSet:
         hyperparameter_set = HyperparameterSet()
         hyperparameter_set.add("batch_size_training", 32)

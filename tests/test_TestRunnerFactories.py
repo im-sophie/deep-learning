@@ -21,8 +21,8 @@ class TestRunnerFactories(object):
             hyperparameter_set = hyperparameter_set
         ).run()
 
-    def test_classifier_RunnerClassifierTorchDataLoaderFactoryMNIST(self):
-        self._test_runner_factory_helper(S.RunnerClassifierTorchDataLoaderFactoryMNIST)
+    def test_network_RunnerNetworkTorchDataLoaderFactoryMNIST(self):
+        self._test_runner_factory_helper(S.RunnerNetworkTorchDataLoaderFactoryMNIST)
 
     def test_continuous_actor_critic_RunnerRLFactoryContinuousActorCriticMountainCarContinuousV0(self):
         self._test_runner_factory_helper(S.RunnerRLFactoryContinuousActorCriticMountainCarContinuousV0)

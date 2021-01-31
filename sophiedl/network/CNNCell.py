@@ -2,7 +2,8 @@
 import torch.nn as nn
 
 class CNNCell(nn.Sequential):
-    def __init__(self,
+    def __init__(
+        self,
         in_channels: int,
         out_channels: int,
         kernel_size: int = 3,

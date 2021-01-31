@@ -17,7 +17,7 @@ class NLPresenter(object):
     def alphabet(self) -> str:
         return "".join(
             set().union(
-                *[i.alphabet for i in self.rules]
+                *[i.alphabet for i in self.rules] # type: ignore
             )
         )
 

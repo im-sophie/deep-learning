@@ -1,0 +1,2 @@
+class RunnerRNNTorchDataLoaderFactoryText(object):
+    pass

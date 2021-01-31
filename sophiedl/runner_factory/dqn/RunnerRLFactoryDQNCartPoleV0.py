@@ -19,7 +19,7 @@ from ...environment.EnvironmentBase import EnvironmentBase
 from ...environment.EnvironmentGymWrapper import EnvironmentGymWrapper
 from ...hyperparameters.HyperparameterSet import HyperparameterSet
 from ...network.OptimizedSequential import OptimizedSequential
-from ..RunnerRLFactoryBase import RunnerRLFactoryBase
+from ..base.RunnerRLFactoryBase import RunnerRLFactoryBase
 
 class RunnerRLFactoryDQNCartPoleV0(RunnerRLFactoryBase):
     def on_create_default_hyperparameter_set(self) -> HyperparameterSet:

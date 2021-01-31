@@ -23,22 +23,26 @@ class AgentBase(abc.ABC):
         self.memory_buffer = MemoryBuffer()
     
     @abc.abstractmethod
-    def on_act(self,
+    def on_act(
+        self,
         runner_context: RunnerRLContext,
         observation: T.Tensor) -> Tuple[Union[T.Tensor, float], Optional[T.Tensor]]:
         pass
 
     @abc.abstractmethod
-    def on_should_learn(self,
+    def on_should_learn(
+        self,
         runner_context: RunnerRLContext) -> bool:
         pass
 
     @abc.abstractmethod
-    def on_learn(self,
+    def on_learn(
+        self,
         runner_context: RunnerRLContext) -> None:
         pass
 
-    def act(self,
+    def act(
+        self,
         runner_context: RunnerRLContext,
         observation: T.Tensor) -> Union[T.Tensor, float]:
         action, action_log_probabilities = self.on_act(runner_context, observation)
@@ -53,7 +57,8 @@ class AgentBase(abc.ABC):
         
         return action
     
-    def reward(self,
+    def reward(
+        self,
         reward: float,
         observation: T.Tensor,
         done: bool) -> None:
@@ -62,7 +67,8 @@ class AgentBase(abc.ABC):
         self.memory_buffer.add_done(done)
         self.memory_buffer.push()
 
-    def learn(self,
+    def learn(
+        self,
         runner_context: RunnerRLContext) -> None:
         if self.on_should_learn(runner_context):
             self.on_learn(runner_context)

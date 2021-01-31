@@ -21,7 +21,8 @@ class RunnerBase(abc.ABC):
     clear_tensorboard_output_dir: bool
     moving_average_window: int
 
-    def __init__(self,
+    def __init__(
+        self,
         hyperparameter_set: HyperparameterSet,
         tensorboard_output_dir: Optional[str] = None,
         clear_tensorboard_output_dir: bool = True,

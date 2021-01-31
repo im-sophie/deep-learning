@@ -1,13 +1,12 @@
 from .nl_presentation.LexerNLPresentationFormat import LexerNLPresentationFormat
 from .nl_presentation.NLPresentationFormat import NLPresentationFormat
 from .nl_presentation.NLPresentationRule import NLPresentationRule
-from .nl_presentation.NLPresentationRule import NLPresentationRule
-from .nl_presentation.NLPresenter import NLPresenter
 from .nl_presentation.NLPresenter import NLPresenter
 from .nl_presentation.TokenKindNLPresentationFormat import TokenKindNLPresentationFormat
 from .synthesis.TreeSynthesizerBase import TreeSynthesizerBase
 from .synthesis.TreeSynthesizerEnumerative import TreeSynthesizerEnumerative
 from .synthesis.TreeSynthesizerStochastic import TreeSynthesizerStochastic
+from .tree.formatting import format_newline, format_color_default, format_color_type, format_color_symbol, format_color_literal, format_color_member_name
 from .tree.Precedence import Precedence
 from .tree.Scope import Scope
 from .tree.ScopeFrame import ScopeFrame

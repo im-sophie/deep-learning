@@ -7,7 +7,8 @@ class LexingError(Exception):
     column: int
     text: str
 
-    def __init__(self,
+    def __init__(
+        self,
         offset: int,
         line: int,
         column: int,

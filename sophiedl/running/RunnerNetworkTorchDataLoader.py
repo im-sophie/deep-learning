@@ -8,13 +8,14 @@ import torch.nn as nn
 # Internal
 from ..hyperparameters.HyperparameterSet import HyperparameterSet
 from ..network.OptimizedModule import OptimizedModule
-from .RunnerClassifierBase import RunnerClassifierBase
+from .RunnerNetworkBase import RunnerNetworkBase
 
-class RunnerClassifierTorchDataLoader(RunnerClassifierBase):
+class RunnerNetworkTorchDataLoader(RunnerNetworkBase):
     data_loader_training: T.utils.data.DataLoader[T.Tensor]
     data_loader_testing: T.utils.data.DataLoader[T.Tensor]
 
-    def __init__(self,
+    def __init__(
+        self,
         hyperparameter_set: HyperparameterSet,
         network: OptimizedModule,
         data_loader_training: T.utils.data.DataLoader[T.Tensor],

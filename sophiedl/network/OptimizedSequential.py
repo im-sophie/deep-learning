@@ -18,7 +18,8 @@ class OptimizedSequential(nn.Sequential, OptimizedModule):
     def optimizer_factory_adam(parameters: Iterable[T.Tensor], learning_rate: float) -> O.Adam:
         return O.Adam(parameters, lr = learning_rate)
 
-    def __init__(self,
+    def __init__(
+        self,
         *args: nn.Module,
         optimizer_factory: Optional[Callable[[Iterable[T.Tensor], float], O.Adam]] = None,
         learning_rate: float = 0):

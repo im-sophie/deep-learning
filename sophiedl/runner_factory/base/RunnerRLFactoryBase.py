@@ -8,10 +8,10 @@ from typing import Optional, Union
 import torch as T
 
 # Internal
-from ..agent.AgentBase import AgentBase
-from ..environment.EnvironmentBase import EnvironmentBase
-from ..hyperparameters.HyperparameterSet import HyperparameterSet
-from ..running.RunnerRL import RunnerRL
+from ...agent.AgentBase import AgentBase
+from ...environment.EnvironmentBase import EnvironmentBase
+from ...hyperparameters.HyperparameterSet import HyperparameterSet
+from ...running.RunnerRL import RunnerRL
 from .RunnerFactoryBase import RunnerFactoryBase
 
 class RunnerRLFactoryBase(RunnerFactoryBase):
@@ -20,12 +20,14 @@ class RunnerRLFactoryBase(RunnerFactoryBase):
         pass
 
     @abc.abstractmethod
-    def on_create_agent(self,
+    def on_create_agent(
+        self,
         environment: EnvironmentBase,
         hyperparameter_set: HyperparameterSet) -> AgentBase:
         pass
 
-    def on_create_runner(self,
+    def on_create_runner(
+        self,
         hyperparameter_set: HyperparameterSet,
         tensorboard_output_dir: Optional[str]) -> RunnerRL:
         environment = self.on_create_environment()

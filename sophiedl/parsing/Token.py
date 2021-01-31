@@ -13,7 +13,8 @@ class Token(Repr, Generic[TKind]):
     text: str
     kind: TKind
 
-    def __init__(self,
+    def __init__(
+        self,
         offset: int,
         line: int,
         column: int,
